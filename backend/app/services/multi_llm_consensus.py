@@ -25,8 +25,9 @@ try:
 except ImportError:
     from langchain_community.vectorstores import Qdrant as QdrantVectorStore
 
+from langchain_community.embeddings.fastembed import FastEmbedEmbeddings
 from langchain_groq import ChatGroq
-from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import SystemMessage, HumanMessage
 from langchain_core.output_parsers import StrOutputParser
 from app.core.config import settings
@@ -90,14 +91,14 @@ class StudentAttemptEvaluation(BaseModel):
 # Global Singleton Qdrant & Embeddings Cache
 # ---------------------------------------------------------
 _qdrant_client_instance: Optional[QdrantClient] = None
-_embeddings_instance: Optional[GoogleGenerativeAIEmbeddings] = None
+_embeddings_instance: Optional[FastEmbedEmbeddings] = None
 _vectorstore_instance: Optional[Any] = None
 
 
 def get_qdrant_vectorstore() -> Optional[Any]:
     """
-    Returns a cached singleton QdrantVectorStore instance to prevent
-    repeated file locking on the local directory during concurrent requests.
+    Returns a cached singleton QdrantVectorStore instance with FastEmbedEmbeddings
+    to prevent repeated file locking on the local directory during concurrent requests.
     """
     global _qdrant_client_instance, _embeddings_instance, _vectorstore_instance
 
@@ -106,7 +107,7 @@ def get_qdrant_vectorstore() -> Optional[Any]:
 
     try:
         if _embeddings_instance is None:
-            _embeddings_instance = key_manager.get_gemini_embeddings(model="models/gemini-embedding-001")
+            _embeddings_instance = FastEmbedEmbeddings(model_name="BAAI/bge-small-en-v1.5")
 
         if _qdrant_client_instance is None:
             if settings.QDRANT_URL:

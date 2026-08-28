@@ -3,7 +3,8 @@ import logging
 from pathlib import Path
 from typing import List, Dict, Any, Optional, Union
 
-from sentence_transformers import SentenceTransformer, CrossEncoder
+from langchain_community.embeddings.fastembed import FastEmbedEmbeddings
+from sentence_transformers import CrossEncoder
 from qdrant_client import QdrantClient
 from qdrant_client import models as qmodels
 
@@ -19,7 +20,7 @@ QDRANT_DB_PATH = Path(__file__).resolve().parent.parent.parent / "qdrant_db"
 class RAGEngineService:
     """
     Retrieval Augmented Generation service for JEE knowledge base and PYQs
-    equipped with dense vector search and Cross-Encoder reranking.
+    equipped with FastEmbed dense vector search and Cross-Encoder reranking.
     """
 
     def __init__(self):
@@ -30,7 +31,7 @@ class RAGEngineService:
         self.client = None
 
         # Model singletons on CPU (lazy initialized or explicit)
-        self._embedding_model: Optional[SentenceTransformer] = None
+        self._embedding_model: Optional[FastEmbedEmbeddings] = None
         self._reranker: Optional[CrossEncoder] = None
 
     @property
@@ -46,19 +47,19 @@ class RAGEngineService:
         self._reranker = value
 
     @property
-    def embedding_model(self) -> SentenceTransformer:
-        """Initializes and returns SentenceTransformer('all-MiniLM-L6-v2') on local CPU."""
+    def embedding_model(self) -> FastEmbedEmbeddings:
+        """Initializes and returns FastEmbedEmbeddings('BAAI/bge-small-en-v1.5')."""
         if self._embedding_model is None:
-            logger.info("Initializing SentenceTransformer('all-MiniLM-L6-v2') on CPU...")
-            self._embedding_model = SentenceTransformer("all-MiniLM-L6-v2", device="cpu")
+            logger.info("Initializing FastEmbedEmbeddings('BAAI/bge-small-en-v1.5')...")
+            self._embedding_model = FastEmbedEmbeddings(model_name="BAAI/bge-small-en-v1.5")
         return self._embedding_model
 
     @embedding_model.setter
-    def embedding_model(self, value: Optional[SentenceTransformer]):
+    def embedding_model(self, value: Optional[FastEmbedEmbeddings]):
         self._embedding_model = value
 
-    def get_embedding_model(self) -> SentenceTransformer:
-        """Helper method returning the initialized SentenceTransformer instance."""
+    def get_embedding_model(self) -> FastEmbedEmbeddings:
+        """Helper method returning the initialized FastEmbedEmbeddings instance."""
         return self.embedding_model
 
     def get_reranker(self) -> CrossEncoder:
@@ -128,7 +129,7 @@ class RAGEngineService:
         try:
             client = self.get_qdrant_client()
             search_query = f"{subject_name} {query}".strip() if subject_name else query
-            query_vector = self.embedding_model.encode(search_query).tolist()
+            query_vector = self.embedding_model.embed_query(search_query)
 
             subject_filter = (
                 qmodels.Filter(

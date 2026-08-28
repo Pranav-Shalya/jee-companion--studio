@@ -19,7 +19,7 @@ from pathlib import Path
 from typing import List, Dict, Any
 
 import pandas as pd
-from sentence_transformers import SentenceTransformer
+from langchain_community.embeddings.fastembed import FastEmbedEmbeddings
 from qdrant_client import QdrantClient
 from qdrant_client.http import models as qmodels
 
@@ -163,10 +163,10 @@ def ingest_csv(
     total_rows = len(df)
     logger.info("Loaded %d rows with columns: %s", total_rows, list(df.columns))
 
-    # 1. Initialize local SentenceTransformer model on CPU
-    logger.info("Initializing SentenceTransformer('all-MiniLM-L6-v2') on local CPU...")
-    model = SentenceTransformer("all-MiniLM-L6-v2", device="cpu")
-    vector_size = model.get_sentence_embedding_dimension()
+    # 1. Initialize FastEmbed model on CPU
+    logger.info("Initializing FastEmbedEmbeddings('BAAI/bge-small-en-v1.5') on local CPU...")
+    model = FastEmbedEmbeddings(model_name="BAAI/bge-small-en-v1.5")
+    vector_size = 384
     logger.info("Embedding model loaded successfully (Vector Dimension: %d).", vector_size)
 
     # 2. Connect to Qdrant
@@ -174,9 +174,10 @@ def ingest_csv(
         logger.info("Connecting to embedded local Qdrant at directory: %s", qdrant_path)
         client = QdrantClient(path=qdrant_path)
     else:
+        qdrant_api_key = os.getenv("QDRANT_API_KEY", None)
         logger.info("Connecting to Qdrant server at: %s", qdrant_url)
         try:
-            client = QdrantClient(url=qdrant_url, timeout=30.0)
+            client = QdrantClient(url=qdrant_url, api_key=qdrant_api_key, timeout=30.0)
         except Exception:
             fallback_dir = Path(__file__).resolve().parent.parent / "qdrant_db"
             logger.warning("Could not connect to Qdrant URL. Falling back to local storage at %s", fallback_dir)
@@ -213,8 +214,8 @@ def ingest_csv(
             row_id = str(uuid.uuid5(uuid.NAMESPACE_DNS, text_repr))
             batch_ids.append(row_id)
 
-        # Generate dense embeddings
-        embeddings = model.encode(batch_texts, batch_size=len(batch_texts), show_progress_bar=False).tolist()
+        # Generate dense FastEmbed embeddings
+        embeddings = model.embed_documents(batch_texts)
 
         # Build Qdrant points
         points = [

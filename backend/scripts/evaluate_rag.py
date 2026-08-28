@@ -27,7 +27,7 @@ if str(BACKEND_ROOT) not in sys.path:
 
 import httpx
 import numpy as np
-from sentence_transformers import SentenceTransformer
+from langchain_community.embeddings.fastembed import FastEmbedEmbeddings
 
 # ---------------------------------------------------------------------------
 # 1. Standard JEE Benchmark Evaluation Dataset
@@ -172,7 +172,7 @@ def compute_keyword_recall(
 
 
 def compute_semantic_similarity(
-    model: SentenceTransformer, generated_text: str, ground_truth_text: str
+    model: FastEmbedEmbeddings, generated_text: str, ground_truth_text: str
 ) -> float:
     """
     Computes Cosine Semantic Similarity between generated response and ground truth reference.
@@ -180,10 +180,14 @@ def compute_semantic_similarity(
     if not generated_text or not ground_truth_text:
         return 0.0
 
-    emb_gen = model.encode(generated_text, convert_to_numpy=True, normalize_embeddings=True)
-    emb_gt = model.encode(ground_truth_text, convert_to_numpy=True, normalize_embeddings=True)
+    v1 = np.array(model.embed_query(generated_text))
+    v2 = np.array(model.embed_query(ground_truth_text))
+    norm1 = np.linalg.norm(v1)
+    norm2 = np.linalg.norm(v2)
+    if norm1 == 0 or norm2 == 0:
+        return 0.0
 
-    similarity = float(np.dot(emb_gen, emb_gt))
+    similarity = float(np.dot(v1, v2) / (norm1 * norm2))
     return max(0.0, min(1.0, similarity))
 
 
@@ -280,9 +284,9 @@ async def run_rag_evaluation(
     print(f"Total Benchmark Test Cases: {len(EVALUATION_DATASET)}")
     print("-" * 82)
 
-    # Initialize SentenceTransformer
+    # Initialize FastEmbed
     print("\nLoading local evaluation embedding model...")
-    eval_embedding_model = SentenceTransformer("all-MiniLM-L6-v2", device="cpu")
+    eval_embedding_model = FastEmbedEmbeddings(model_name="BAAI/bge-small-en-v1.5")
     print("[OK] Model loaded successfully.\n")
 
     results = []
