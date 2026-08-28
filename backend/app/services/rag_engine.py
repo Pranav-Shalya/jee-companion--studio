@@ -4,7 +4,6 @@ from pathlib import Path
 from typing import List, Dict, Any, Optional, Union
 
 from langchain_community.embeddings.fastembed import FastEmbedEmbeddings
-from sentence_transformers import CrossEncoder
 from qdrant_client import QdrantClient
 from qdrant_client import models as qmodels
 
@@ -20,7 +19,7 @@ QDRANT_DB_PATH = Path(__file__).resolve().parent.parent.parent / "qdrant_db"
 class RAGEngineService:
     """
     Retrieval Augmented Generation service for JEE knowledge base and PYQs
-    equipped with FastEmbed dense vector search and Cross-Encoder reranking.
+    equipped with FastEmbed dense vector search.
     """
 
     def __init__(self):
@@ -32,19 +31,6 @@ class RAGEngineService:
 
         # Model singletons on CPU (lazy initialized or explicit)
         self._embedding_model: Optional[FastEmbedEmbeddings] = None
-        self._reranker: Optional[CrossEncoder] = None
-
-    @property
-    def reranker(self) -> CrossEncoder:
-        """Initializes and returns CrossEncoder('cross-encoder/ms-marco-MiniLM-L-6-v2') on local CPU."""
-        if self._reranker is None:
-            logger.info("Initializing CrossEncoder('cross-encoder/ms-marco-MiniLM-L-6-v2') on CPU...")
-            self._reranker = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2", device="cpu")
-        return self._reranker
-
-    @reranker.setter
-    def reranker(self, value: Optional[CrossEncoder]):
-        self._reranker = value
 
     @property
     def embedding_model(self) -> FastEmbedEmbeddings:
@@ -61,10 +47,6 @@ class RAGEngineService:
     def get_embedding_model(self) -> FastEmbedEmbeddings:
         """Helper method returning the initialized FastEmbedEmbeddings instance."""
         return self.embedding_model
-
-    def get_reranker(self) -> CrossEncoder:
-        """Helper method returning the initialized CrossEncoder instance."""
-        return self.reranker
 
     def get_qdrant_client(self) -> QdrantClient:
         """Returns a connected QdrantClient instance supporting Qdrant Cloud and local storage."""
@@ -109,22 +91,16 @@ class RAGEngineService:
         query: str,
         subject: Optional[Union[SubjectEnum, str]] = None,
         top_k: int = 3,
-        overfetch_limit: int = 20,
     ) -> List[Dict[str, Any]]:
         """
-        Retrieves relevant conceptual chunks, formulas, and pitfalls using a Cross-Encoder Reranking pipeline:
-        Step A: Over-fetch by querying Qdrant for the top limit=15 or 20 results using dense vector search.
-        Step B: Extract the text content from the hit.payload of those results.
-        Step C: Create a list of pairs for the reranker: pairs = [[user_query, doc_text] for doc_text in extracted_texts].
-        Step D: Score the pairs: scores = self.reranker.predict(pairs).
-        Step E: Zip the scores with the original payloads, sort them descending by score, and return top_k (top 3 or 5).
-        Fallback: If the reranker fails, gracefully falls back to the original Qdrant sorting or curated knowledge bank.
+        Retrieves relevant conceptual chunks, formulas, and pitfalls using dense vector search.
+        Performs direct query embedding and Qdrant vector search, returning top results immediately.
+        Fallback: If Qdrant retrieval fails or returns no points, gracefully falls back to the curated knowledge bank.
         """
         subject_name = subject.value if isinstance(subject, SubjectEnum) else (str(subject) if subject else "")
         logger.info("Retrieving RAG knowledge context for query in [%s]: '%s'", subject_name, query[:60])
 
         candidate_payloads: List[Dict[str, Any]] = []
-        extracted_texts: List[str] = []
 
         try:
             client = self.get_qdrant_client()
@@ -144,14 +120,14 @@ class RAGEngineService:
                 else None
             )
 
-            # Step A: Over-fetch by querying Qdrant for the top limit=15 or 20 results using the existing dense vector search
+            # Direct dense vector search for top_k results
             search_hits = []
             if hasattr(client, "query_points"):
                 res = client.query_points(
                     collection_name=self.collection_name,
                     query=query_vector,
                     query_filter=subject_filter,
-                    limit=overfetch_limit,
+                    limit=top_k,
                     with_payload=True,
                     with_vectors=False,
                 )
@@ -161,12 +137,12 @@ class RAGEngineService:
                     collection_name=self.collection_name,
                     query_vector=query_vector,
                     query_filter=subject_filter,
-                    limit=overfetch_limit,
+                    limit=top_k,
                     with_payload=True,
                     with_vectors=False,
                 )
 
-            # Step B: Extract the text content from the hit.payload of those 20 results
+            # Extract and normalize payloads
             for hit in search_hits:
                 payload = hit.payload or {}
                 doc_text = (
@@ -198,39 +174,13 @@ class RAGEngineService:
                 }
 
                 candidate_payloads.append(normalized_item)
-                extracted_texts.append(doc_text or normalized_item["concept"])
 
-            logger.info("Qdrant dense vector search over-fetched %d candidate chunks.", len(candidate_payloads))
+            if candidate_payloads:
+                logger.info("Qdrant dense vector search returned %d candidate chunks.", len(candidate_payloads))
+                return candidate_payloads
 
         except Exception as qdrant_err:
             logger.warning("Qdrant candidate retrieval encountered error: %s. Using knowledge bank fallback.", qdrant_err)
-
-        # Cross-Encoder Reranking Pipeline
-        if candidate_payloads and extracted_texts:
-            try:
-                # Step C: Create a list of pairs for the reranker: pairs = [[user_query, doc_text] for doc_text in extracted_texts]
-                pairs = [[query, doc_text] for doc_text in extracted_texts]
-
-                # Step D: Score the pairs: scores = self.reranker.predict(pairs)
-                scores = self.reranker.predict(pairs)
-
-                # Step E: Zip the scores with the original payloads, sort them descending by score, and return only the top 3 or 5 payloads
-                scored_results = list(zip(scores, candidate_payloads))
-                scored_results.sort(key=lambda item: float(item[0]), reverse=True)
-
-                top_reranked = [payload for _, payload in scored_results[:top_k]]
-                logger.info(
-                    "Cross-Encoder successfully reranked %d candidates. Returning top %d (Top Score: %.4f).",
-                    len(scored_results),
-                    len(top_reranked),
-                    float(scored_results[0][0]) if scored_results else 0.0,
-                )
-                return top_reranked
-
-            except Exception as rerank_err:
-                # Graceful fallback to original Qdrant sorting if reranker fails
-                logger.warning("Cross-Encoder reranker failed (%s). Gracefully falling back to original Qdrant sorting.", rerank_err)
-                return candidate_payloads[:top_k]
 
         # In-memory Curated JEE knowledge mapping fallback
         logger.info("Using curated in-memory knowledge bank fallback for [%s].", subject_name)
