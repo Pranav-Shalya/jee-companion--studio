@@ -37,17 +37,21 @@ def get_embedding_model() -> SentenceTransformer:
 
 def get_qdrant_client() -> QdrantClient:
     """
-    Initializes and returns a QdrantClient connected to local storage or running server.
+    Initializes and returns a QdrantClient connected to Qdrant Cloud or local server/storage.
     """
-    try:
-        return QdrantClient(path=str(QDRANT_DB_PATH))
-    except Exception as lock_err:
-        logger.warning(
-            "Local Qdrant directory locked (%s). Attempting connection to Qdrant server at localhost:6333...",
-            lock_err,
+    if settings.QDRANT_URL:
+        return QdrantClient(
+            url=settings.QDRANT_URL,
+            api_key=settings.QDRANT_API_KEY,
         )
+    else:
         try:
-            return QdrantClient(url="http://localhost:6333", timeout=10.0)
+            return QdrantClient(
+                host=settings.QDRANT_HOST,
+                port=settings.QDRANT_PORT,
+                api_key=settings.QDRANT_API_KEY,
+                timeout=10.0,
+            )
         except Exception:
             return QdrantClient(path=str(QDRANT_DB_PATH))
 

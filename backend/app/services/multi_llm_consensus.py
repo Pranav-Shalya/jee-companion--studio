@@ -109,9 +109,24 @@ def get_qdrant_vectorstore() -> Optional[Any]:
             _embeddings_instance = key_manager.get_gemini_embeddings(model="models/gemini-embedding-001")
 
         if _qdrant_client_instance is None:
-            if not QDRANT_DB_PATH.exists():
-                return None
-            _qdrant_client_instance = QdrantClient(path=str(QDRANT_DB_PATH))
+            if settings.QDRANT_URL:
+                _qdrant_client_instance = QdrantClient(
+                    url=settings.QDRANT_URL,
+                    api_key=settings.QDRANT_API_KEY,
+                )
+            else:
+                try:
+                    _qdrant_client_instance = QdrantClient(
+                        host=settings.QDRANT_HOST,
+                        port=settings.QDRANT_PORT,
+                        api_key=settings.QDRANT_API_KEY,
+                        timeout=10.0,
+                    )
+                except Exception:
+                    if QDRANT_DB_PATH.exists():
+                        _qdrant_client_instance = QdrantClient(path=str(QDRANT_DB_PATH))
+                    else:
+                        return None
 
         try:
             _vectorstore_instance = QdrantVectorStore(

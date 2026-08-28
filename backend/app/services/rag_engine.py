@@ -66,22 +66,39 @@ class RAGEngineService:
         return self.reranker
 
     def get_qdrant_client(self) -> QdrantClient:
-        """Returns a connected QdrantClient instance."""
-        try:
-            return QdrantClient(path=str(QDRANT_DB_PATH))
-        except Exception as lock_err:
-            logger.warning("Local Qdrant directory locked (%s). Connecting to %s:%s...", lock_err, self.qdrant_host, self.qdrant_port)
+        """Returns a connected QdrantClient instance supporting Qdrant Cloud and local storage."""
+        if settings.QDRANT_URL:
+            return QdrantClient(
+                url=settings.QDRANT_URL,
+                api_key=settings.QDRANT_API_KEY,
+            )
+        else:
             try:
-                return QdrantClient(url=f"http://{self.qdrant_host}:{self.qdrant_port}", timeout=10.0)
+                return QdrantClient(
+                    host=settings.QDRANT_HOST,
+                    port=settings.QDRANT_PORT,
+                    api_key=settings.QDRANT_API_KEY,
+                    timeout=10.0,
+                )
             except Exception:
                 return QdrantClient(path=str(QDRANT_DB_PATH))
 
     async def initialize_client(self):
         try:
             from qdrant_client import AsyncQdrantClient
-            self.client = AsyncQdrantClient(host=self.qdrant_host, port=self.qdrant_port)
+            if settings.QDRANT_URL:
+                self.client = AsyncQdrantClient(
+                    url=settings.QDRANT_URL,
+                    api_key=settings.QDRANT_API_KEY,
+                )
+            else:
+                self.client = AsyncQdrantClient(
+                    host=settings.QDRANT_HOST,
+                    port=settings.QDRANT_PORT,
+                    api_key=settings.QDRANT_API_KEY,
+                )
             self._is_connected = True
-            logger.info("Connected to Qdrant vector database at %s:%s", self.qdrant_host, self.qdrant_port)
+            logger.info("Connected to Qdrant vector database.")
         except Exception as e:
             logger.warning("Could not initialize async Qdrant client (%s). Using local Qdrant fallback.", e)
             self._is_connected = False
