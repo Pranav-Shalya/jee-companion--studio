@@ -137,10 +137,8 @@ export default function CompanionStudio() {
     setIsLoading(true);
     setErrorMsg(null);
 
-    const apiUrl =
-      window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-        ? 'http://localhost:8000/api/v1/studio/generate'
-        : '/api/v1/studio/generate';
+    const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000').replace(/\/+$/, '');
+    const apiUrl = `${apiBaseUrl}/api/v1/studio/generate`;
 
     try {
       const response = await fetch(apiUrl, {
