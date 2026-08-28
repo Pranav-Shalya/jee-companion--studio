@@ -1,0 +1,230 @@
+subject,chapter,topic,difficulty_level,content_type,question_text,options_json,correct_option,solution_latex
+Physics,UNIT 2: Kinematics,3D Kinematics and Motion with Drift,JEE Advanced,pyq,"A particle is projected from the origin $P(0,0,0)$ at $t=0$ with an initial velocity $\vec{v}_0 = (3\hat{i} + 4\hat{j} + 10\hat{k})\text{ m/s}$ in a region where acceleration due to gravity is $\vec{g} = -10\hat{k}\text{ m/s}^2$ and a wind force provides an additional constant acceleration $\vec{a}_w = (2\hat{i} + 6\hat{j})\text{ m/s}^2$. The horizontal distance of the particle from the origin when it reaches its maximum height is:","[""$\\sqrt{65}\\text{ m}$"", ""$\\sqrt{45}\\text{ m}$"", ""$11\\text{ m}$"", ""$\\sqrt{85}\\text{ m}$""]",A,"The motion along the z-axis determines the time to reach maximum height.
+
+Vertical velocity $v_z(t) = v_{0z} + a_z t = 10 - 10t$.
+At maximum height, $v_z(t) = 0 \implies 10 - 10t = 0 \implies t = 1\text{ s}$.
+
+The position coordinates in the horizontal xy-plane at $t = 1\text{ s}$ are:
+$$x(t) = v_{0x}t + \frac{1}{2}a_{wx}t^2 = 3(1) + \frac{1}{2}(2)(1)^2 = 4\text{ m}$$
+$$y(t) = v_{0y}t + \frac{1}{2}a_{wy}t^2 = 4(1) + \frac{1}{2}(6)(1)^2 = 7\text{ m}$$
+
+The horizontal distance from the origin is:
+$$r = \sqrt{x^2 + y^2} = \sqrt{4^2 + 7^2} = \sqrt{16 + 49} = \sqrt{65}\text{ m}$$"
+Physics,UNIT 2: Kinematics,1D Kinematics with Variable Acceleration,JEE Advanced,pyq,"A particle moves along the x-axis with an acceleration given by $a(x) = -b^2 x$, where $b$ is a positive constant. At $t=0$, its position is $x = A$ and its velocity is $v = 0$. The time taken by the particle to move from $x = A$ to $x = \frac{A}{2}$ is:","[""$\\frac{\\pi}{6b}$"", ""$\\frac{\\pi}{3b}$"", ""$\\frac{\\pi}{2b}$"", ""$\\frac{2\\pi}{3b}$""]",B,"Given acceleration $a(x) = v \frac{dv}{dx} = -b^2 x$.
+
+Integrating both sides with boundary conditions $v=0$ at $x=A$:
+$$\int_0^v v dv = -b^2 \int_A^x x dx$$
+$$\frac{v^2}{2} = -b^2 \left( \frac{x^2 - A^2}{2} \right) \implies v^2 = b^2(A^2 - x^2)$$
+
+Since the particle moves from $x=A$ towards $x=A/2$, its velocity is negative:
+$$v = \frac{dx}{dt} = -b\sqrt{A^2 - x^2}$$
+
+Separating variables and integrating from $x=A$ to $x=A/2$:
+$$\int_A^{A/2} \frac{dx}{\sqrt{A^2 - x^2}} = -b \int_0^t dt$$
+$$\left[ \arcsin\left(\frac{x}{A}\right) \right]_A^{A/2} = -bt$$
+$$\arcsin\left(\frac{1}{2}\right) - \arcsin(1) = -bt$$
+$$\frac{\pi}{6} - \frac{\pi}{2} = -bt \implies -\frac{\pi}{3} = -bt \implies t = \frac{\pi}{3b}$$"
+Physics,UNIT 2: Kinematics,Relative Motion in 2D,JEE Advanced,pyq,"Two ships $A$ and $B$ are moving with constant velocities $\vec{v}_A = (3\hat{i} + 4\hat{j})\text{ m/s}$ and $\vec{v}_B = (-4\hat{i} + 3\hat{j})\text{ m/s}$ respectively. At $t=0$, ship $A$ is at the origin $(0,0)$ and ship $B$ is at $(100\text{ m}, 0)$. The minimum distance between the two ships during their motion is:","[""$10\\sqrt{2}\\text{ m}$"", ""$20\\text{ m}$"", ""$5\\sqrt{2}\\text{ m}$"", ""$10\\text{ m}$""]",A,"The relative velocity of ship $B$ with respect to ship $A$ is:
+$$\vec{v}_{B/A} = \vec{v}_B - \vec{v}_A = (-4\hat{i} + 3\hat{j}) - (3\hat{i} + 4\hat{j}) = -7\hat{i} - \hat{j}\text{ m/s}$$
+
+The initial relative position vector of $B$ with respect to $A$ is:
+$$\vec{r}_{B/A}(0) = 100\hat{i}\text{ m}$$
+
+The position of $B$ relative to $A$ at time $t$ is:
+$$\vec{r}_{B/A}(t) = (100 - 7t)\hat{i} - t\hat{j}$$
+
+The square of the distance between them is:
+$$d^2(t) = (100 - 7t)^2 + (-t)^2 = 10000 - 1400t + 50t^2$$
+
+To find the minimum distance, set $\frac{d(d^2)}{dt} = 0$:
+$$-1400 + 100t = 0 \implies t = 14\text{ s}$$
+
+Substituting $t = 14\text{ s}$ back into the distance expression:
+$$d_{\text{min}}^2 = (100 - 98)^2 + (-14)^2 = 4 + 196 = 200$$
+$$d_{\text{min}} = \sqrt{200} = 10\sqrt{2}\text{ m}$$"
+Physics,UNIT 2: Kinematics,Projectile Motion Vector Analysis,JEE Advanced,pyq,"A particle is projected from the origin at $t=0$ with an initial velocity $\vec{u} = u_0 \cos\theta \hat{i} + u_0 \sin\theta \hat{j}$ under gravity $\vec{g} = -g\hat{j}$. At $t = t_1$, its velocity vector becomes perpendicular to its initial velocity vector. The time $t_1$ and the distance of the particle from the origin at $t = t_1$ are respectively:","[""$t_1 = \\frac{u_0}{g\\sin\\theta},\\text{ distance} = \\frac{u_0^2}{2g\\sin^2\\theta}$"", ""$t_1 = \\frac{u_0}{g\\cos\\theta},\\text{ distance} = \\frac{u_0^2}{g\\sin\\theta}$"", ""$t_1 = \\frac{u_0}{g\\sin\\theta},\\text{ distance} = \\frac{u_0^2}{g\\sin^2\\theta}$"", ""$t_1 = \\frac{2u_0}{g\\sin\\theta},\\text{ distance} = \\frac{u_0^2}{2g\\sin\\theta}$""]",A,"The velocity vector at time $t$ is:
+$$\vec{v}(t) = u_0 \cos\theta \hat{i} + (u_0 \sin\theta - gt) \hat{j}$$
+
+Since $\vec{u} \perp \vec{v}(t_1)$, their dot product is zero:
+$$\vec{u} \cdot \vec{v}(t_1) = 0$$
+$$u_0^2 \cos^2\theta + u_0 \sin\theta (u_0 \sin\theta - g t_1) = 0$$
+$$u_0^2 (\cos^2\theta + \sin^2\theta) - u_0 g t_1 \sin\theta = 0$$
+$$u_0^2 = u_0 g t_1 \sin\theta \implies t_1 = \frac{u_0}{g \sin\theta}$$
+
+The position coordinates at $t = t_1$ are:
+$$x = u_0 \cos\theta \cdot t_1 = \frac{u_0^2 \cot\theta}{g}$$
+$$y = u_0 \sin\theta \cdot t_1 - \frac{1}{2} g t_1^2 = \frac{u_0^2}{g} - \frac{u_0^2}{2g \sin^2\theta} = -\frac{u_0^2 \cos 2\theta}{2g \sin^2\theta}$$
+
+The distance $r = \sqrt{x^2 + y^2}$ from the origin is:
+$$r^2 = \frac{u_0^4}{g^2 \sin^4\theta} \left( \cos^2\theta \sin^2\theta + \frac{\cos^2 2\theta}{4} \right) = \frac{u_0^4}{g^2 \sin^4\theta} \left( \frac{\sin^2 2\theta + \cos^2 2\theta}{4} \right) = \frac{u_0^4}{4g^2 \sin^4\theta}$$
+$$r = \frac{u_0^2}{2g \sin^2\theta}$$"
+Physics,UNIT 2: Kinematics,Resisted Motion under Velocity-Dependent Retardation,JEE Advanced,pyq,"A particle moves along the x-axis with a retardation $a = -k \sqrt{v}$, where $k$ is a positive constant and $v$ is the instantaneous velocity. If the particle has an initial velocity $v_0$ at $x=0$, the total distance traveled by the particle before coming to rest and the total time taken are respectively:","[""$S = \\frac{2 v_0^{3/2}}{3k}, T = \\frac{2\\sqrt{v_0}}{k}$"", ""$S = \\frac{v_0^{3/2}}{k}, T = \\frac{\\sqrt{v_0}}{k}$"", ""$S = \\frac{4 v_0^{3/2}}{3k}, T = \\frac{2\\sqrt{v_0}}{k}$"", ""$S = \\frac{2 v_0^{3/2}}{3k}, T = \\frac{\\sqrt{v_0}}{2k}$""]",A,"1. **Total Time Taken ($T$):**
+Using $a = \frac{dv}{dt} = -k\sqrt{v}$:
+$$\int_{v_0}^0 v^{-1/2} dv = -k \int_0^T dt$$
+$$\left[ 2\sqrt{v} \right]_{v_0}^0 = -kT \implies -2\sqrt{v_0} = -kT \implies T = \frac{2\sqrt{v_0}}{k}$$
+
+2. **Total Distance Traveled ($S$):**
+Using $a = v \frac{dv}{dx} = -k\sqrt{v}$:
+$$\sqrt{v} dv = -k dx$$
+$$\int_{v_0}^0 v^{1/2} dv = -k \int_0^S dx$$
+$$\left[ \frac{2}{3} v^{3/2} \right]_{v_0}^0 = -kS \implies -\frac{2}{3} v_0^{3/2} = -kS \implies S = \frac{2 v_0^{3/2}}{3k}$$"
+Mathematics,UNIT 8: INTEGRAL CALCULAS,Definite Integrals & Leibniz Rule,JEE Advanced,pyq,"Let $f: [0, \infty) \to \mathbb{R}$ be a continuous function satisfying $f(x) = 1 - 2x + \int_0^x e^{x-t} f(t) \, dt$ for all $x \ge 0$. The value of $\int_0^1 f(x) \, dx$ is:","[""$\\frac{1}{2}$"", ""$1$"", ""$e - \\frac{1}{2}$"", ""$\\frac{3}{2}$""]",A,"To find $f(x)$, we start by rewriting the integral equation:
+$$f(x) = 1 - 2x + e^x \int_0^x e^{-t} f(t) \, dt$$
+Multiplying both sides by $e^{-x}$ gives:
+$$f(x)e^{-x} = (1-2x)e^{-x} + \int_0^x e^{-t} f(t) \, dt$$
+Differentiating both sides with respect to $x$ using Leibniz's Rule:
+$$f'(x)e^{-x} - f(x)e^{-x} = -2e^{-x} - (1-2x)e^{-x} + e^{-x}f(x)$$
+Multiplying throughout by $e^x$:
+$$f'(x) - f(x) = -3 + 2x + f(x) \implies f'(x) - 2f(x) = 2x - 3$$
+This is a first-order linear differential equation with Integrating Factor $\text{I.F.} = e^{-2x}$:
+$$\frac{d}{dx}\left[f(x)e^{-2x}\right] = (2x - 3)e^{-2x}$$
+Integrating both sides:
+$$f(x)e^{-2x} = \int (2x - 3)e^{-2x} \, dx = e^{-2x}(1-x) + C$$
+$$\implies f(x) = 1 - x + C e^{2x}$$
+Since $f(0) = 1 - 2(0) + 0 = 1$, we substitute $x = 0$:
+$$1 = 1 - 0 + C \implies C = 0$$
+Thus, $f(x) = 1 - x$.
+
+Evaluating the required definite integral:
+$$\int_0^1 f(x) \, dx = \int_0^1 (1 - x) \, dx = \left[ x - \frac{x^2}{2} \right]_0^1 = 1 - \frac{1}{2} = \frac{1}{2}$$"
+Mathematics,UNIT 8: INTEGRAL CALCULAS,Area Under Curves,JEE Advanced,pyq,The total area of the region bounded by the curves $y = |x^2 - 1|$ and $y = 1$ is equal to:,"[""$\\frac{8}{3}(\\sqrt{2} - 1)$"", ""$\\frac{4}{3}(\\sqrt{2} + 1)$"", ""$\\frac{8}{3}\\sqrt{2}$"", ""$\\frac{4}{3}(\\sqrt{2} - 1)$""]",A,"To find the area bounded by $y = |x^2 - 1|$ and $y = 1$:
+First, find the points of intersection:
+$$|x^2 - 1| = 1 \implies x^2 - 1 = 1 \text{ or } x^2 - 1 = -1$$
+$$x^2 = 2 \implies x = \pm \sqrt{2} \quad \text{or} \quad x^2 = 0 \implies x = 0$$
+By symmetry about the y-axis, the total bounded area $A$ is:
+$$A = 2 \int_0^{\sqrt{2}} (1 - |x^2 - 1|) \, dx$$
+We split the integral at $x = 1$ because $|x^2 - 1|$ changes definition:
+1. For $x \in [0, 1]$, $|x^2 - 1| = 1 - x^2$:
+$$A_1 = 2 \int_0^1 (1 - (1 - x^2)) \, dx = 2 \int_0^1 x^2 \, dx = 2 \left[ \frac{x^3}{3} \right]_0^1 = \frac{2}{3}$$
+2. For $x \in [1, \sqrt{2}]$, $|x^2 - 1| = x^2 - 1$:
+$$A_2 = 2 \int_1^{\sqrt{2}} (1 - (x^2 - 1)) \, dx = 2 \int_1^{\sqrt{2}} (2 - x^2) \, dx = 2 \left[ 2x - \frac{x^3}{3} \right]_1^{\sqrt{2}}$$
+$$A_2 = 2 \left( \left(2\sqrt{2} - \frac{2\sqrt{2}}{3}\right) - \left(2 - \frac{1}{3}\right) \right) = 2 \left( \frac{4\sqrt{2}}{3} - \frac{5}{3} \right) = \frac{8\sqrt{2} - 10}{3}$$
+
+Adding both components, the total area is:
+$$A = A_1 + A_2 = \frac{2}{3} + \frac{8\sqrt{2} - 10}{3} = \frac{8\sqrt{2} - 8}{3} = \frac{8}{3}(\sqrt{2} - 1)$$"
+Mathematics,UNIT 8: INTEGRAL CALCULAS,Differential Equations,JEE Advanced,pyq,"Let $y(x)$ be the solution of the differential equation $(x\log_e x)\frac{dy}{dx} + y = 2\log_e x$ for $x > 1$. If $y(e) = 0$, then $y(e^2)$ is equal to:","[""$\\frac{3}{2}$"", ""$1$"", ""$\\frac{5}{2}$"", ""$2$""]",A,"The given differential equation is:
+$$(x \log_e x)\frac{dy}{dx} + y = 2\log_e x$$
+For $x > 1$, divide by $x \log_e x$ to write it in standard first-order linear form $\frac{dy}{dx} + P(x)y = Q(x)$:
+$$\frac{dy}{dx} + \frac{1}{x \log_e x} y = \frac{2}{x}$$
+The Integrating Factor (I.F.) is:
+$$\text{I.F.} = e^{\int \frac{1}{x \log_e x} dx} = e^{\log_e (\log_e x)} = \log_e x$$
+Therefore, the general solution is:
+$$y \cdot \log_e x = \int \frac{2}{x} \cdot \log_e x \, dx$$
+Let $t = \log_e x \implies dt = \frac{1}{x} dx$:
+$$y \cdot \log_e x = \int 2t \, dt = t^2 + C = (\log_e x)^2 + C$$
+$$y(x) = \log_e x + \frac{C}{\log_e x}$$
+Using the initial condition $y(e) = 0$:
+$$0 = \log_e e + \frac{C}{\log_e e} \implies 0 = 1 + C \implies C = -1$$
+Thus, the solution function is:
+$$y(x) = \log_e x - \frac{1}{\log_e x}$$
+Evaluating at $x = e^2$:
+$$y(e^2) = \log_e(e^2) - \frac{1}{\log_e(e^2)} = 2 - \frac{1}{2} = \frac{3}{2}$$"
+Mathematics,UNIT 8: INTEGRAL CALCULAS,Properties of Definite Integrals,JEE Advanced,pyq,"The value of the definite integral $I = \int_{-\pi/2}^{\pi/2} \frac{\cos^2 x}{1 + 2^x} \, dx$ is:","[""$\\frac{\\pi}{4}$"", ""$\\frac{\\pi}{2}$"", ""$\\pi$"", ""$\\frac{\\pi}{8}$""]",A,"Let the given integral be:
+$$I = \int_{-\pi/2}^{\pi/2} \frac{\cos^2 x}{1 + 2^x} \, dx \quad \text{--- (1)}$$
+Applying King's Property $\int_a^b f(x) \, dx = \int_a^b f(a+b-x) \, dx$ where $a + b - x = -x$:
+$$I = \int_{-\pi/2}^{\pi/2} \frac{\cos^2(-x)}{1 + 2^{-x}} \, dx = \int_{-\pi/2}^{\pi/2} \frac{\cos^2 x}{1 + 2^{-x}} \, dx = \int_{-\pi/2}^{\pi/2} \frac{2^x \cos^2 x}{2^x + 1} \, dx \quad \text{--- (2)}$$
+Adding equations (1) and (2):
+$$2I = \int_{-\pi/2}^{\pi/2} \frac{(1 + 2^x)\cos^2 x}{1 + 2^x} \, dx = \int_{-\pi/2}^{\pi/2} \cos^2 x \, dx$$
+Since $\cos^2 x$ is an even function, we can simplify this to:
+$$2I = 2 \int_0^{\pi/2} \cos^2 x \, dx \implies I = \int_0^{\pi/2} \cos^2 x \, dx$$
+Using the half-angle formula $\cos^2 x = \frac{1 + \cos 2x}{2}$:
+$$I = \int_0^{\pi/2} \frac{1 + \cos 2x}{2} \, dx = \left[ \frac{x}{2} + \frac{\sin 2x}{4} \right]_0^{\pi/2} = \frac{\pi}{4} + 0 = \frac{\pi}{4}$$"
+Mathematics,UNIT 8: INTEGRAL CALCULAS,Indefinite Integrals,JEE Advanced,pyq,"If $\int \frac{\cos x - \sin x}{\sqrt{8 - \sin 2x}} \, dx = \sin^{-1} \left( \frac{\sin x + \cos x}{K} \right) + C$, then the value of $K$ is equal to:","[""$3$"", ""$2\\sqrt{2}$"", ""$\\sqrt{7}$"", ""$9$""]",A,"Consider the indefinite integral:
+$$I = \int \frac{\cos x - \sin x}{\sqrt{8 - \sin 2x}} \, dx$$
+Substitute $t = \sin x + \cos x$. Differentiating both sides gives:
+$$dt = (\cos x - \sin x) \, dx$$
+Squaring $t$:
+$$t^2 = (\sin x + \cos x)^2 = \sin^2 x + \cos^2 x + 2\sin x \cos x = 1 + \sin 2x$$
+$$\implies \sin 2x = t^2 - 1$$
+Substituting $t$ and $\sin 2x$ into the integral:
+$$I = \int \frac{dt}{\sqrt{8 - (t^2 - 1)}} = \int \frac{dt}{\sqrt{9 - t^2}}$$
+Using the standard integration formula $\int \frac{dt}{\sqrt{a^2 - t^2}} = \sin^{-1}\left(\frac{t}{a}\right) + C$:
+$$I = \sin^{-1}\left(\frac{t}{3}\right) + C = \sin^{-1}\left(\frac{\sin x + \cos x}{3}\right) + C$$
+Comparing this result with $\sin^{-1}\left(\frac{\sin x + \cos x}{K}\right) + C$, we obtain $K = 3$."
+Chemistry,UNIT 4: CHEMICAL THERMODYNAMICS,First Law of Thermodynamics & Real Gases,JEE Advanced,pyq,"One mole of a real gas obeying the van der Waals equation of state $\left(P + \frac{a}{V^2}\right)(V - b) = RT$ undergoes a reversible isothermal expansion at temperature $T$ from an initial volume $V_1$ to a final volume $V_2$. Given that $\left(\frac{\partial U}{\partial V}\right)_T = \frac{a}{V^2}$, select the correct expressions for the work done ($W_{\text{by}}$) by the gas and the change in internal energy ($\Delta U$) during this expansion.","[""A) $W_{\\text{by}} = RT \\ln\\left(\\frac{V_2-b}{V_1-b}\\right) + a\\left(\\frac{1}{V_2} - \\frac{1}{V_1}\\right)$ and $\\Delta U = a\\left(\\frac{1}{V_1} - \\frac{1}{V_2}\\right)$"", ""B) $W_{\\text{by}} = RT \\ln\\left(\\frac{V_2-b}{V_1-b}\\right) - a\\left(\\frac{1}{V_2} - \\frac{1}{V_1}\\right)$ and $\\Delta U = a\\left(\\frac{1}{V_2} - \\frac{1}{V_1}\\right)$"", ""C) $W_{\\text{by}} = RT \\ln\\left(\\frac{V_2}{V_1}\\right) + a\\left(\\frac{1}{V_1} - \\frac{1}{V_2}\\right)$ and $\\Delta U = 0$"", ""D) $W_{\\text{by}} = RT \\ln\\left(\\frac{V_2-b}{V_1-b}\\right)$ and $\\Delta U = a\\left(\\frac{1}{V_1} - \\frac{1}{V_2}\\right)$""]",A,"For a van der Waals gas, the pressure $P$ is expressed as:
+$$P = \frac{RT}{V-b} - \frac{a}{V^2}$$
+
+The work done BY the gas during reversible expansion from $V_1$ to $V_2$ is:
+$$W_{\text{by}} = \int_{V_1}^{V_2} P \, dV = \int_{V_1}^{V_2} \left( \frac{RT}{V-b} - \frac{a}{V^2} \right) dV$$
+$$W_{\text{by}} = RT \left[ \ln(V-b) \right]_{V_1}^{V_2} - a \left[ -\frac{1}{V} \right]_{V_1}^{V_2}$$
+$$W_{\text{by}} = RT \ln\left(\frac{V_2-b}{V_1-b}\right) + a\left(\frac{1}{V_2} - \frac{1}{V_1}\right)$$
+
+To find $\Delta U$ for an isothermal process:
+$$dU = \left(\frac{\partial U}{\partial T}\right)_V dT + \left(\frac{\partial U}{\partial V}\right)_T dV$$
+Since $dT = 0$ for an isothermal process:
+$$\Delta U = \int_{V_1}^{V_2} \left(\frac{\partial U}{\partial V}\right)_T dV = \int_{V_1}^{V_2} \frac{a}{V^2} dV = a \left[ -\frac{1}{V} \right]_{V_1}^{V_2} = a\left(\frac{1}{V_1} - \frac{1}{V_2}\right)$$
+
+Hence, Option A is correct."
+Chemistry,UNIT 4: CHEMICAL THERMODYNAMICS,Thermochemistry & Enthalpy of Neutralization,JEE Advanced,pyq,"The total enthalpy of neutralization of a weak triprotic acid $\text{H}_3\text{A}$ with a strong base $\text{NaOH}$ to yield $\text{Na}_3\text{A}$ and $\text{H}_2\text{O}$ is $-36.6\text{ kcal mol}^{-1}$. Given that the standard enthalpy of neutralization of a strong acid with a strong base is $-13.7\text{ kcal eq}^{-1}$, and the first two stepwise enthalpies of ionization of $\text{H}_3\text{A}$ are $\Delta H^\circ_{\text{ion},1} = +1.5\text{ kcal mol}^{-1}$ and $\Delta H^\circ_{\text{ion},2} = +1.0\text{ kcal mol}^{-1}$, determine the third stepwise enthalpy of ionization $\Delta H^\circ_{\text{ion},3}$ for $\text{HA}^{2-} \rightarrow \text{H}^+ + \text{A}^{3-}$.","[""A) $+2.0\\text{ kcal mol}^{-1}$"", ""B) $+4.5\\text{ kcal mol}^{-1}$"", ""C) $-2.0\\text{ kcal mol}^{-1}$"", ""D) $+3.5\\text{ kcal mol}^{-1}$""]",A,"The complete neutralization of $1\text{ mol}$ of $\text{H}_3\text{A}$ involves two steps:
+1. Complete ionization of $\text{H}_3\text{A}$ into $3\text{H}^+$ and $\text{A}^{3-}$:
+$$\text{H}_3\text{A} \rightarrow 3\text{H}^+ + \text{A}^{3-}, \quad \Delta H_{\text{ion, total}} = \Delta H^\circ_{\text{ion},1} + \Delta H^\circ_{\text{ion},2} + \Delta H^\circ_{\text{ion},3}$$
+2. Neutralization of $3\text{ mol}$ of $\text{H}^+$ with $3\text{ mol}$ of $\text{OH}^-$:
+$$3\text{H}^+ + 3\text{OH}^- \rightarrow 3\text{H}_2\text{O}, \quad \Delta H_{\text{neut}} = 3 \times (-13.7\text{ kcal}) = -41.1\text{ kcal mol}^{-1}$$
+
+The net enthalpy of neutralization is:
+$$\Delta H_{\text{net}} = \Delta H_{\text{ion, total}} + \Delta H_{\text{neut}}$$
+$$-36.6 = (1.5 + 1.0 + \Delta H^\circ_{\text{ion},3}) - 41.1$$
+$$-36.6 = 2.5 + \Delta H^\circ_{\text{ion},3} - 41.1$$
+$$-36.6 = -38.6 + \Delta H^\circ_{\text{ion},3}$$
+$$\Delta H^\circ_{\text{ion},3} = +2.0\text{ kcal mol}^{-1}$$
+
+Thus, Option A is correct."
+Chemistry,UNIT 4: CHEMICAL THERMODYNAMICS,Second Law of Thermodynamics & Entropy Change,JEE Advanced,pyq,"Calculate the total entropy change of the universe ($\Delta S_{\text{total}}$) when $2\text{ moles}$ of supercooled liquid water at $-10^\circ\text{C}$ ($263\text{ K}$) spontaneously freeze to ice at $-10^\circ\text{C}$ under constant pressure of $1\text{ atm}$.
+Data given:
+$C_{p,m}(\text{H}_2\text{O}, l) = 75.3\text{ J K}^{-1}\text{mol}^{-1}$
+$C_{p,m}(\text{H}_2\text{O}, s) = 37.7\text{ J K}^{-1}\text{mol}^{-1}$
+$\Delta H_{\text{fusion}}$ of ice at $0^\circ\text{C}$ ($273\text{ K}$) $= 6.02\text{ kJ mol}^{-1}$
+$\ln\left(\frac{273}{263}\right) = 0.0373$","[""A) $+1.62\\text{ J K}^{-1}$"", ""B) $-41.30\\text{ J K}^{-1}$"", ""C) $+42.92\\text{ J K}^{-1}$"", ""D) $+3.24\\text{ J K}^{-1}$""]",A,"To find $\Delta S_{\text{sys}}$, construct a three-step reversible path for $2\text{ moles}$ of $\text{H}_2\text{O}$:
+1. Heating $2\text{ mol}$ liquid from $263\text{ K}$ to $273\text{ K}$:
+$$\Delta S_1 = n C_{p,m}(l) \ln\left(\frac{273}{263}\right) = 2 \times 75.3 \times 0.0373 = +5.617\text{ J K}^{-1}$$
+2. Freezing at $273\text{ K}$:
+$$\Delta S_2 = \frac{n (-\Delta H_{\text{fus}})}{273} = \frac{2 \times (-6020)}{273} = -44.103\text{ J K}^{-1}$$
+3. Cooling $2\text{ mol}$ ice from $273\text{ K}$ to $263\text{ K}$:
+$$\Delta S_3 = n C_{p,m}(s) \ln\left(\frac{263}{273}\right) = 2 \times 37.7 \times (-0.0373) = -2.812\text{ J K}^{-1}$$
+$$\Delta S_{\text{sys}} = \Delta S_1 + \Delta S_2 + \Delta S_3 = 5.617 - 44.103 - 2.812 = -41.298\text{ J K}^{-1}$$
+
+Now calculate $\Delta H_{\text{sys}}$ for the overall process:
+$$\Delta H_{\text{sys}} = n C_{p,m}(l)(10) + n(-\Delta H_{\text{fus}}) + n C_{p,m}(s)(-10)$$
+$$\Delta H_{\text{sys}} = 2(75.3)(10) - 2(6020) + 2(37.7)(-10) = 1506 - 12040 - 754 = -11288\text{ J}$$
+
+Heat transferred to surroundings at $263\text{ K}$ is $q_{\text{surr}} = -\Delta H_{\text{sys}} = +11288\text{ J}$.
+$$\Delta S_{\text{surr}} = \frac{q_{\text{surr}}}{T_{\text{surr}}} = \frac{11288}{263} = +42.920\text{ J K}^{-1}$$
+
+Total entropy change of universe:
+$$\Delta S_{\text{total}} = \Delta S_{\text{sys}} + \Delta S_{\text{surr}} = -41.298 + 42.920 = +1.622\text{ J K}^{-1} \approx +1.62\text{ J K}^{-1}$$
+
+Hence, Option A is correct."
+Chemistry,UNIT 4: CHEMICAL THERMODYNAMICS,Thermodynamic Functions & Temperature Dependence of Enthalpy,JEE Advanced,pyq,"For a chemical reaction, the standard Gibbs free energy change $\Delta G^\circ$ (in $\text{J mol}^{-1}$) depends on temperature $T$ (in $\text{K}$) according to:
+$$\Delta G^\circ = 20000 - 40 T \ln T + 100 T$$
+Determine the standard reaction enthalpy $\Delta H^\circ$ at $T = 300\text{ K}$ and the standard heat capacity difference $\Delta C_p^\circ$ between products and reactants.","[""A) $\\Delta H^\\circ = 32.0\\text{ kJ mol}^{-1}$ and $\\Delta C_p^\\circ = +40\\text{ J K}^{-1}\\text{mol}^{-1}$"", ""B) $\\Delta H^\\circ = 20.0\\text{ kJ mol}^{-1}$ and $\\Delta C_p^\\circ = -40\\text{ J K}^{-1}\\text{mol}^{-1}$"", ""C) $\\Delta H^\\circ = 32.0\\text{ kJ mol}^{-1}$ and $\\Delta C_p^\\circ = -40\\text{ J K}^{-1}\\text{mol}^{-1}$"", ""D) $\\Delta H^\\circ = 44.0\\text{ kJ mol}^{-1}$ and $\\Delta C_p^\\circ = +40\\text{ J K}^{-1}\\text{mol}^{-1}$""]",A,"Using the thermodynamic relationship $\Delta S^\circ = -\left(\frac{\partial \Delta G^\circ}{\partial T}\right)_P$:
+$$\Delta S^\circ = - \frac{d}{dT} (20000 - 40 T \ln T + 100 T)$$
+$$\Delta S^\circ = - \left[ 0 - 40(\ln T + 1) + 100 \right] = 40 \ln T + 40 - 100 = 40 \ln T - 60$$
+
+Now, substitute $\Delta G^\circ$ and $\Delta S^\circ$ into $\Delta H^\circ = \Delta G^\circ + T \Delta S^\circ$:
+$$\Delta H^\circ = (20000 - 40 T \ln T + 100 T) + T(40 \ln T - 60)$$
+$$\Delta H^\circ = 20000 - 40 T \ln T + 100 T + 40 T \ln T - 60 T$$
+$$\Delta H^\circ = 20000 + 40 T$$
+
+At $T = 300\text{ K}$:
+$$\Delta H^\circ = 20000 + 40(300) = 32000\text{ J mol}^{-1} = 32.0\text{ kJ mol}^{-1}$$
+
+By Kirchhoff's law, $\Delta C_p^\circ = \left(\frac{\partial \Delta H^\circ}{\partial T}\right)_P$:
+$$\Delta C_p^\circ = \frac{d}{dT}(20000 + 40 T) = +40\text{ J K}^{-1}\text{mol}^{-1}$$
+
+Hence, Option A is correct."
+Chemistry,UNIT 4: CHEMICAL THERMODYNAMICS,Polytropic Processes & Ideal Gas Thermodynamics,JEE Advanced,pyq,"One mole of an ideal monoatomic gas ($C_{v,m} = \frac{3}{2}R$) undergoes a reversible expansion following the polytropic path $P V^2 = \text{constant}$ from an initial state ($P_1 = 4\text{ atm}, V_1 = 2\text{ L}$) to a final volume $V_2 = 4\text{ L}$. Calculate the work done on the gas ($W_{\text{on}}$), the change in internal energy ($\Delta U$), and the molar heat capacity ($C_m$) for this process. (Take $1\text{ L atm} = 101.3\text{ J}$)","[""A) $W_{\\text{on}} = -405.2\\text{ J}$, $\\Delta U = -607.8\\text{ J}$, $C_m = \\frac{1}{2}R$"", ""B) $W_{\\text{on}} = +405.2\\text{ J}$, $\\Delta U = -607.8\\text{ J}$, $C_m = \\frac{5}{2}R$"", ""C) $W_{\\text{on}} = -405.2\\text{ J}$, $\\Delta U = +607.8\\text{ J}$, $C_m = \\frac{3}{2}R$"", ""D) $W_{\\text{on}} = -202.6\\text{ J}$, $\\Delta U = -405.2\\text{ J}$, $C_m = \\frac{1}{2}R$""]",A,"1. **Work done on the gas ($W_{\text{on}}$):**
+For a polytropic process $P V^n = K$ with $n = 2$ and $K = P_1 V_1^2 = 4 \times 2^2 = 16\text{ atm L}^2$:
+$$P_2 = \frac{K}{V_2^2} = \frac{16}{4^2} = 1\text{ atm}$$
+$$W_{\text{on}} = -\int_{V_1}^{V_2} P \, dV = -\int_{V_1}^{V_2} K V^{-2} dV = K \left[ \frac{1}{V_2} - \frac{1}{V_1} \right]$$
+$$W_{\text{on}} = 16 \left[ \frac{1}{4} - \frac{1}{2} \right] = -4\text{ L atm} = -4 \times 101.3\text{ J} = -405.2\text{ J}$$
+
+2. **Change in internal energy ($\Delta U$):**
+Initial temperature $T_1 = \frac{P_1 V_1}{R} = \frac{8}{R}$, Final temperature $T_2 = \frac{P_2 V_2}{R} = \frac{4}{R}$.
+$$\Delta T = T_2 - T_1 = -\frac{4}{R}$$
+$$\Delta U = n C_{v,m} \Delta T = 1 \times \left(\frac{3}{2}R\right) \times \left(-\frac{4}{R}\right) = -6\text{ L atm} = -6 \times 101.3\text{ J} = -607.8\text{ J}$$
+
+3. **Molar heat capacity ($C_m$):**
+For any polytropic process $P V^n = C$:
+$$C_m = C_{v,m} + \frac{R}{1-n} = \frac{3}{2}R + \frac{R}{1-2} = \frac{3}{2}R - R = \frac{1}{2}R$$
+
+Thus, Option A is correct."

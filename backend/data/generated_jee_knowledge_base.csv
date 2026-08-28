@@ -1,0 +1,175 @@
+subject,chapter,topic,difficulty_level,content_type,text,formulas_json,prerequisites_json,common_pitfalls_json
+Physics,UNIT 2: Kinematics,Calculus-Based 1D Kinematics and Variable Acceleration,JEE Main,theory,"In 1D kinematics, when acceleration is non-uniform, standard constant-acceleration equations ($v = u + at$, $s = ut + \frac{1}{2}at^2$) completely break down. Calculus provides the fundamental dynamic framework. Position vector $\vec{r}(t)$, velocity $\vec{v}(t)$, and acceleration $\vec{a}(t)$ are related through differential differential operators:
+$$\vec{v} = \frac{d\vec{r}}{dt}, \quad \vec{a} = \frac{d\vec{v}}{dt} = \frac{d^2\vec{r}}{dt^2}$$
+
+When acceleration is given as a function of position $a(x)$, we use the chain rule transformation:
+$$a = \frac{dv}{dt} = \frac{dv}{dx} \cdot \frac{dx}{dt} = v \frac{dv}{dx}$$
+
+Integrating this differential equation yields the velocity-position relation:
+$$\int_{v_0}^{v} v \, dv = \int_{x_0}^{x} a(x) \, dx \implies \frac{v^2 - v_0^2}{2} = \int_{x_0}^{x} a(x) \, dx$$
+
+It is crucial to distinguish between average velocity and average speed. Average velocity is a vector defined as displacement over total time interval $\langle \vec{v} \rangle = \frac{\Delta \vec{r}}{\Delta t}$, whereas average speed is total path length over total time interval $\langle v \rangle = \frac{\int |v(t)| \, dt}{\Delta t}$. The inequality $|\langle \vec{v} \rangle| \le \langle v \rangle$ strictly holds, with equality occurring if and only if the particle moves along a straight line without reversing direction.","[""$v = \\frac{dx}{dt}$"", ""$a = \\frac{dv}{dt} = v \\frac{dv}{dx} = \\frac{d^2x}{dt^2}$"", ""$\\int_{v_0}^{v} v \\, dv = \\int_{x_0}^{x} a(x) \\, dx$"", ""\\langle v \\rangle = \\frac{\\text{Total Distance}}{\\Delta t} = \\frac{\\int_{t_1}^{t_2} |v(t)| \\, dt}{t_2 - t_1}"", ""\\langle \\vec{v} \\rangle = \\frac{\\Delta \\vec{r}}{\\Delta t} = \\frac{\\vec{r}(t_2) - \\vec{r}(t_1)}{t_2 - t_1}""]","[""Differential Calculus (Chain Rule, Derivatives)"", ""Integral Calculus (Definite Integration and Boundary Conditions)"", ""Vector Algebra (Displacement Vectors)""]","[""Incorrectly applying constant acceleration formulas (e.g., $v = u + at$) when acceleration depends on time $a(t)$ or position $a(x)$."", ""Equating average speed directly to the magnitude of average velocity when the particle changes direction ($v(t)$ crosses zero)."", ""Forgetting integration constants or misapplying initial boundary conditions (e.g., assuming $x(0) = 0$ without explicit standard context).""]"
+Physics,UNIT 2: Kinematics,Projectile Motion on an Inclined Plane,JEE Advanced,theory,"Analyzing projectile motion on an incline of angle $\alpha$ requires establishing an oblique coordinate system aligned with the inclined surface. Align the $x'$-axis along the incline (upwards) and the $y'$-axis perpendicular to the incline.
+
+Gravity $\vec{g}$ acts vertically downwards, which projects components along both new axes:
+$$a_{x'} = -g \sin\alpha, \quad a_{y'} = -g \cos\alpha$$
+
+Consider a particle projected at speed $u$ at an angle $\theta$ relative to the inclined plane (making an angle $\theta + \alpha$ with the horizontal):
+$$u_{x'} = u \cos\theta, \quad u_{y'} = u \sin\theta$$
+
+1. **Time of Flight ($T$)**: The particle returns to the incline when $y' = 0$. Using $y'(t) = u_{y'} t + \frac{1}{2} a_{y'} t^2$:
+$$0 = (u \sin\theta) T - \frac{1}{2} (g \cos\alpha) T^2 \implies T = \frac{2u \sin\theta}{g \cos\alpha}$$
+
+2. **Range along the Incline ($R$)**: Substituting $T$ into $x'(t) = u_{x'} t + \frac{1}{2} a_{x'} t^2$:
+$$R = (u \cos\theta) \left(\frac{2u \sin\theta}{g \cos\alpha}\right) - \frac{1}{2} (g \sin\alpha) \left(\frac{2u \sin\theta}{g \cos\alpha}\right)^2$$
+Simplifying using trigonometric identities yields:
+$$R = \frac{u^2}{g \cos^2\alpha} \left[ \sin(2\theta + \alpha) - \sin\alpha \right]$$
+
+3. **Maximum Range Condition**: Range $R$ is maximized when $\sin(2\theta + \alpha) = 1$, which occurs when $2\theta + \alpha = \frac{\pi}{2}$, giving the optimal projection angle relative to the incline:
+$$\theta_{\text{opt}} = \frac{\pi}{4} - \frac{\alpha}{2}$$
+$$R_{\text{max}} = \frac{u^2}{g (1 + \sin\alpha)}$$","[""$a_{x'} = -g \\sin\\alpha, \\quad a_{y'} = -g \\cos\\alpha$"", ""$T = \\frac{2u \\sin\\theta}{g \\cos\\alpha}$"", ""$H_{\\text{max}} = \\frac{u^2 \\sin^2\\theta}{2g \\cos\\alpha}$"", ""$R = \\frac{u^2}{g \\cos^2\\alpha} \\left[ \\sin(2\\theta + \\alpha) - \\sin\\alpha \\right]$"", ""$R_{\\text{max}} = \\frac{u^2}{g(1 + \\sin\\alpha)} \\quad \\text{at } \\theta = \\frac{\\pi}{4} - \\frac{\\alpha}{2}$""]","[""2D Kinematics in Cartesian Coordinates"", ""Trigonometric Transformation Equations"", ""Resolution of Vector Components""]","[""Confusing the angle of projection relative to the incline ($\\theta$) with the angle of projection relative to the horizontal ($\\theta + \\alpha$)."", ""Neglecting the deceleration component $a_{x'} = -g \\sin\\alpha$ along the inclined plane surface."", ""Using standard horizontal projectile range formula $R = \\frac{u^2 \\sin 2\\theta}{g}$ directly on inclined frames.""]"
+Physics,UNIT 2: Kinematics,2D Relative Kinematics and River-Swimmer Dynamics,JEE Advanced,theory,"Relative kinematics analyzes motion from non-stationary reference frames. For two bodies $A$ and $B$ moving with ground-frame velocities $\vec{v}_A$ and $\vec{v}_B$, the velocity of $A$ relative to $B$ is given by Galilean velocity transformation:
+$$\vec{v}_{A/B} = \vec{v}_A - \vec{v}_B$$
+
+In **River-Swimmer Problems**, let $\vec{v}_{s/r}$ be the velocity of the swimmer relative to the river (speed in still water at angle $\theta$ upstream), $\vec{v}_r = v_r \hat{i}$ be river flow velocity, and $d$ be river width:
+$$\vec{v}_s = \vec{v}_{s/r} + \vec{v}_r = (-v_{s/r} \sin\theta \hat{i} + v_{s/r} \cos\theta \hat{j}) + v_r \hat{i}$$
+
+- **Time to Cross**: Time depends strictly on the perpendicular velocity component ($y$-axis):
+$$t = \frac{d}{v_y} = \frac{d}{v_{s/r} \cos\theta}$$
+Minimum crossing time occurs when heading perpendicular to banks ($\theta = 0$):
+$$t_{\text{min}} = \frac{d}{v_{s/r}}$$
+
+- **Drift ($x$)**: Downstream horizontal displacement during crossing:
+$$x = v_x \cdot t = (v_r - v_{s/r} \sin\theta) \frac{d}{v_{s/r} \cos\theta}$$
+
+- **Zero Drift (Shortest Path)**: Possible only if $v_{s/r} > v_r$. For $x = 0$, set $\sin\theta = \frac{v_r}{v_{s/r}}$. The angle with direction of river flow is $\alpha = 90^\circ + \theta$.
+If $v_{s/r} < v_r$, zero drift is physically impossible. To minimize drift, differentiate $x(\theta)$ with respect to $\theta$ and set to zero, giving $\sin\theta = \frac{v_{s/r}}{v_r}$.","[""$\\vec{v}_{A/B} = \\vec{v}_A - \\vec{v}_B$"", ""$\\vec{v}_{s} = \\vec{v}_{s/r} + \\vec{v}_r$"", ""$t_{\\text{cross}} = \\frac{d}{v_{s/r} \\cos\\theta}$"", ""$x_{\\text{drift}} = (v_r - v_{s/r} \\sin\\theta) \\frac{d}{v_{s/r} \\cos\\theta}$"", ""\\sin\\theta_{\\text{zero drift}} = \\frac{v_r}{v_{s/r}} \\quad (\\text{for } v_{s/r} > v_r)"", ""x_{\\text{min}} = d \\sqrt{\\frac{v_r^2}{v_{s/r}^2} - 1} \\quad (\\text{for } v_{s/r} < v_r)""]","[""Vector Subtraction and Addition"", ""Relative Velocity in 1D"", ""Calculus-based Optimization (Maxima and Minima)""]","[""Confusing relative velocity $\\vec{v}_{s/r}$ (velocity in still water) with actual resultant velocity relative to ground $\\vec{v}_s$."", ""Assuming zero drift path is achievable when swimmer's speed is less than river flow speed ($v_{s/r} < v_r$)."", ""Misidentifying the angle $\\theta$: mixing up angle with the normal to river bank versus angle with river flow line.""]"
+Mathematics,UNIT 8: INTEGRAL CALCULAS,Newton-Leibniz Rule and Fundamental Theorem of Calculus,JEE Advanced,theory,"The Fundamental Theorem of Calculus (FTC) bridges differential and integral calculus. The First Fundamental Theorem states that if $f(x)$ is continuous on $[a, b]$, then the function $F(x) = \int_{a}^{x} f(t)\,dt$ is continuous on $[a, b]$, differentiable on $(a, b)$, and $F'(x) = f(x)$.
+
+When the limits of integration are functions of an independent variable $x$, we apply the Newton-Leibniz Rule for differentiation under the integral sign. Let $g(x)$ and $h(x)$ be differentiable functions of $x$ on $[a, b]$, and let $f(t)$ be continuous on the range of these functions. Define:
+$$I(x) = \int_{g(x)}^{h(x)} f(t)\,dt$$
+
+To derive the derivative of $I(x)$ with respect to $x$, let $F(t)$ be an antiderivative of $f(t)$ such that $F'(t) = f(t)$. By FTC Part 2:
+$$I(x) = F(h(x)) - F(g(x))$$
+
+Differentiating both sides with respect to $x$ using the Chain Rule yields:
+$$\frac{dI}{dx} = \frac{d}{dx}[F(h(x))] - \frac{d}{dx}[F(g(x))]$$
+$$\frac{dI}{dx} = F'(h(x)) \cdot h'(x) - F'(g(x)) \cdot g'(x)$$
+
+Substituting $F'(t) = f(t)$, we obtain the master Newton-Leibniz Formula:
+$$\frac{d}{dx}\left(\int_{g(x)}^{h(x)} f(t)\,dt\right) = f(h(x)) \cdot h'(x) - f(g(x)) \cdot g'(x)$$
+
+If the integrand $f(x, t)$ depends explicitly on both $x$ and the dummy variable $t$, the extended Leibniz Rule must be used:
+$$\frac{d}{dx}\left(\int_{g(x)}^{h(x)} f(x, t)\,dt\right) = f(x, h(x))h'(x) - f(x, g(x))g'(x) + \int_{g(x)}^{h(x)} \frac{\partial f(x, t)}{\partial x}\,dt$$","[""\\frac{d}{dx}\\left(\\int_{g(x)}^{h(x)} f(t)\\,dt\\right) = f(h(x)) \\cdot h'(x) - f(g(x)) \\cdot g'(x)"", ""\\frac{d}{dx}\\left(\\int_{g(x)}^{h(x)} f(x, t)\\,dt\\right) = f(x, h(x))h'(x) - f(x, g(x))g'(x) + \\int_{g(x)}^{h(x)} \\frac{\\partial f(x, t)}{\\partial x}\\,dt"", ""\\int_{a}^{b} f(x)\\,dx = F(b) - F(a) \\quad \\text{where } F'(x) = f(x)""]","[""Continuity and Differentiability"", ""Chain Rule of Differentiation"", ""Indefinite Integration Basics""]","[""Forgetting to multiply by the inner derivatives $h'(x)$ and $g'(x)$ during differentiation."", ""Applying the standard Newton-Leibniz formula when the integrand contains $x$ explicitly, omitting the partial derivative integral term."", ""Applying FTC directly across points where the integrand $f(t)$ has infinite discontinuities within the interval $[g(x), h(x)]$""]"
+Mathematics,UNIT 8: INTEGRAL CALCULAS,Fundamental Properties of Definite Integrals (King's and Queen's Properties),JEE Main,theory,"Definite integrals possess key structural symmetries that allow evaluation without finding explicit antiderivatives. Two of the most critical properties tested in JEE are King's Property and Queen's Property.
+
+1. **King's Property**:
+$$\int_{a}^{b} f(x)\,dx = \int_{a}^{b} f(a+b-x)\,dx$$
+*Derivation*: Substitute $t = a + b - x \implies dx = -dt$. When $x = a$, $t = b$; when $x = b$, $t = a$. Thus:
+$$\int_{a}^{b} f(x)\,dx = \int_{b}^{a} f(a+b-t)(-dt) = \int_{a}^{b} f(a+b-t)\,dt$$
+Since the dummy variable of integration does not affect the integral's value, replacing $t$ with $x$ completes the proof.
+Special Case ($a=0, b=a$):
+$$\int_{0}^{a} f(x)\,dx = \int_{0}^{a} f(a-x)\,dx$$
+
+2. **Queen's Property**:
+$$\int_{0}^{2a} f(x)\,dx = \int_{0}^{a} f(x)\,dx + \int_{0}^{a} f(2a-x)\,dx$$
+Consequently:
+$$\int_{0}^{2a} f(x)\,dx = \begin{cases} 2\int_{0}^{a} f(x)\,dx, & \text{if } f(2a-x) = f(x) \\ 0, & \text{if } f(2a-x) = -f(x) \end{cases}$$
+*Derivation*: Split integral $\int_{0}^{2a} f(x)\,dx = \int_{0}^{a} f(x)\,dx + \int_{a}^{2a} f(x)\,dx$. In the second term, substitute $x = 2a - t \implies dx = -dt$. The upper and lower limits shift from $[a, 2a]$ to $[a, 0]$, simplifying to $\int_{0}^{a} f(2a-t)\,dt$, proving the identity.","[""\\int_{a}^{b} f(x)\\,dx = \\int_{a}^{b} f(a+b-x)\\,dx"", ""\\int_{0}^{a} f(x)\\,dx = \\int_{0}^{a} f(a-x)\\,dx"", ""\\int_{0}^{2a} f(x)\\,dx = \\int_{0}^{a} [f(x) + f(2a-x)]\\,dx"", ""\\int_{-a}^{a} f(x)\\,dx = \\begin{cases} 2\\int_{0}^{a} f(x)\\,dx, & \\text{if } f(-x) = f(x) \\text{ (even)} \\\\ 0, & \\text{if } f(-x) = -f(x) \\text{ (odd)} \\end{cases}""]","[""Substitution Method of Integration"", ""Symmetry and Properties of Functions (Odd/Even Functions)"", ""Basic Algebraic Simplification""]","[""Applying $\\int_{-a}^{a} f(x)\\,dx = 0$ assuming $f(x)$ is odd without verifying that $f(-x) = -f(x)$ across the entire domain $[-a, a]$."", ""Incorrectly scaling bounds when applying Queen's property, e.g., using $\\int_{0}^{a}$ instead of halving the upper limit."", ""Forgetting to add the original integral $I$ to the modified integral $I$ after using King's property to form $2I$.""]"
+Mathematics,UNIT 8: INTEGRAL CALCULAS,Definite Integral as a Limit of a Sum,JEE Main,theory,"The geometric definition of a definite integral is built upon Riemann sums. A definite integral $\int_{a}^{b} f(x)\,dx$ represents the net signed area under $f(x)$ from $x=a$ to $x=b$. If we divide the interval $[a, b]$ into $n$ equal subintervals each of width $h = \frac{b-a}{n}$, the area can be approximated by a sum of rectangular strips.
+
+Taking the limit as $n \to \infty$ ($h \to 0$) gives the exact continuous integral:
+$$\int_{a}^{b} f(x)\,dx = \lim_{n \to \infty} h \sum_{r=1}^{n} f(a + rh) = \lim_{n \to \infty} \frac{b-a}{n} \sum_{r=1}^{n} f\left(a + r\frac{b-a}{n}\right)$$
+
+**Standard Conversion Algorithm for Infinite Series Problems**:
+To evaluate a limit of the form $\lim_{n \to \infty} \sum_{r=g(n)}^{h(n)} \frac{1}{n} f\left(\frac{r}{n}\right)$:
+1. Factor out $\frac{1}{n}$ from the general term to form the differential element $dx = \frac{1}{n}$.
+2. Express the remaining inner expression purely as a function of $\left(\frac{r}{n}\right)$, which maps to the continuous variable $x$.
+3. Replace the limit-sum operator $\lim_{n \to \infty} \frac{1}{n} \sum$ with the integral sign $\int$.
+4. Compute integration limits:
+   - Lower limit: $A = \lim_{n \to \infty} \frac{r_{\text{min}}}{n}$
+   - Upper limit: $B = \lim_{n \to \infty} \frac{r_{\text{max}}}{n}$
+
+Thus, the limit converts directly to:
+$$\lim_{n \to \infty} \frac{1}{n} \sum_{r=g(n)}^{h(n)} f\left(\frac{r}{n}\right) = \int_{A}^{B} f(x)\,dx$$","[""\\lim_{n \\to \\infty} \\frac{1}{n} \\sum_{r=1}^{n} f\\left(\\frac{r}{n}\\right) = \\int_{0}^{1} f(x)\\,dx"", ""\\lim_{n \\to \\infty} h \\sum_{r=0}^{n-1} f(a+rh) = \\int_{a}^{b} f(x)\\,dx \\quad \\text{where } h = \\frac{b-a}{n}"", ""\\text{Lower Limit } A = \\lim_{n \\to \\infty} \\frac{r_{\\text{initial}}}{n}, \\quad \\text{Upper Limit } B = \\lim_{n \\to \\infty} \\frac{r_{\\text{final}}}{n}""]","[""Limits at Infinity"", ""Sigma Notation and Series Summations"", ""Basic Definite Integral Evaluation""]","[""Failing to factor out $\\frac{1}{n}$ completely, leaving variable $n$ terms inside the integrand $f(x)$."", ""Incorrect limit calculation for integration bounds when the summation indices do not run standardly from $1$ to $n$ (e.g., $r = n$ to $2n$ gives bounds $[1, 2]$, not $[0, 1]$)."", ""Misidentifying the general term $r/n$ when terms inside the sum involve $r^2/n^2$ or non-linear term variations.""]"
+Chemistry,UNIT 4: CHEMICAL THERMODYNAMICS,"First Law of Thermodynamics, Enthalpy, and PV-Work in Ideal Gas Processes",JEE Main,theory,"The First Law of Thermodynamics is an expression of the law of conservation of energy. It states that the change in internal energy ($\Delta U$) of a closed system is equal to the energy added to it as heat ($q$) plus the work done on it ($w$):
+$$\Delta U = q + w$$
+By IUPAC convention, heat added to the system ($q > 0$) and work done on the system ($w > 0$) increase internal energy.
+
+### PV-Work Expressions
+ expansion/compression work is defined differential-wise as:
+$$\delta w = -P_{\text{ext}} dV \implies w = -\int_{V_1}^{V_2} P_{\text{ext}} dV$$
+
+1. **Isothermal Process ($T = \text{constant}$):**
+For an ideal gas, internal energy depends solely on temperature, hence $\Delta U = 0$ and $q = -w$.
+- **Reversible Isothermal Expansion:** $P_{\text{ext}} = P_{\text{gas}} = \frac{nRT}{V}$
+$$w_{\text{rev}} = -\int_{V_1}^{V_2} \frac{nRT}{V} dV = -nRT \ln\left(\frac{V_2}{V_1}\right) = -2.303 nRT \log_{10}\left(\frac{V_2}{V_1}\right)$$
+- **Irreversible Isothermal Expansion:** $P_{\text{ext}} = \text{constant}$
+$$w_{\text{irr}} = -P_{\text{ext}} (V_2 - V_1)$$
+
+2. **Adiabatic Process ($q = 0$):**
+From the first law, $\Delta U = w = n C_v \Delta T$.
+- **Reversible Adiabatic Expansion:** Governed by $P V^\gamma = \text{constant}$, $T V^{\gamma-1} = \text{constant}$, and $T^\gamma P^{1-\gamma} = \text{constant}$, where $\gamma = \frac{C_p}{C_v}$.
+$$w_{\text{rev}} = \frac{P_2 V_2 - P_1 V_1}{\gamma - 1} = \frac{nR(T_2 - T_1)}{\gamma - 1}$$
+- **Irreversible Adiabatic Expansion:** Solved by equating $\Delta U = w_{\text{irr}}$:
+$$n C_v (T_2 - T_1) = -P_{\text{ext}} (V_2 - V_1) = -P_{\text{ext}} \left( \frac{nRT_2}{P_2} - \frac{nRT_1}{P_1} \right)$$
+
+### Enthalpy ($H$)
+Enthalpy is defined as $H = U + PV$. At constant pressure, the heat exchanged equals the enthalpy change ($q_p = \Delta H$). The relation between $\Delta H$ and $\Delta U$ for an ideal gas reaction is:
+$$\Delta H = \Delta U + \Delta n_g R T$$","[""\\Delta U = q + w"", ""w = -\\int P_{\\text{ext}} dV"", ""w_{\\text{rev, isothermal}} = -nRT \\ln\\left(\\frac{V_2}{V_1}\\right)"", ""w_{\\text{rev, adiabatic}} = \\frac{nR(T_2 - T_1)}{\\gamma - 1}"", ""\\Delta H = \\Delta U + \\Delta n_g R T"", ""C_p - C_v = R""]","[""Ideal Gas Law ($PV = nRT$)"", ""Basic Integral Calculus"", ""Concepts of State and Path Functions""]","[""Failing to follow IUPAC sign conventions (using physics convention where $w = +\\int P dV$)."", ""Assuming $\\Delta U = 0$ for non-isothermal processes or assuming $q = 0$ implies isothermal conditions."", ""Using $PV^\\gamma = \\text{constant}$ for irreversible adiabatic processes; this relation holds ONLY for reversible adiabatic paths.""]"
+Chemistry,UNIT 4: CHEMICAL THERMODYNAMICS,"Thermochemistry: Hess's Law, Enthalpies of Reaction, Formation, and Bond Enthalpies",JEE Main,theory,"Thermochemistry deals with the energy changes accompanying chemical transformations. Since enthalpy ($H$) is a state function, overall reaction enthalpy is independent of the reaction path.
+
+### Standard Enthalpy of Formation ($\Delta_f H^\circ$)
+The enthalpy change accompanying the formation of 1 mole of a substance from its constituent elements in their most stable reference states at standard conditions ($1\text{ bar}$, specified $T$, usually $298.15\text{ K}$).
+- By convention, $\Delta_f H^\circ$ of elements in their standard state is taken as ZERO (e.g., $O_{2(g)}$, $C_{\text{graphite}}$, $S_{\text{rhombic}}$, $Br_{2(l)}$).
+- For any general chemical reaction:
+$$\Delta_r H^\circ = \sum \nu_p \Delta_f H^\circ(\text{products}) - \sum \nu_r \Delta_f H^\circ(\text{reactants})$$
+where $\nu$ represents the stoichiometric coefficients.
+
+### Hess's Law of Constant Heat Summation
+If a chemical reaction takes place in several steps, the standard reaction enthalpy is the sum of standard enthalpies of the intermediate steps:
+$$\Delta_r H^\circ = \Delta H_1^\circ + \Delta H_2^\circ + \Delta H_3^\circ + \dots$$
+
+### Bond Enthalpy (Bond Energy)
+For gaseous species, the enthalpy change required to break 1 mole of a specific covalent bond into gaseous atoms/radicals. Reaction enthalpy calculated from bond enthalpies is given by:
+$$\Delta_r H^\circ = \sum \text{B.E.}_{\text{reactants (bonds broken)}} - \sum \text{B.E.}_{\text{products (bonds formed)}}$$
+
+### Temperature Dependence of $\Delta H$ (Kirchhoff's Law)
+The variation of reaction enthalpy with temperature at constant pressure is governed by:
+$$\left(\frac{\partial \Delta_r H}{\partial T}\right)_P = \Delta C_p$$
+$$\Delta_r H(T_2) = \Delta_r H(T_1) + \int_{T_1}^{T_2} \Delta C_p \, dT$$
+where $\Delta C_p = \sum \nu_p C_{p,\text{products}} - \sum \nu_r C_{p,\text{reactants}}$.","[""\\Delta_r H^\\circ = \\sum \\nu_p \\Delta_f H^\\circ(\\text{products}) - \\sum \\nu_r \\Delta_f H^\\circ(\\text{reactants})"", ""\\Delta_r H^\\circ = \\sum \\text{B.E.}_{\\text{reactants}} - \\sum \\text{B.E.}_{\\text{products}}"", ""\\Delta_r H(T_2) = \\Delta_r H(T_1) + \\Delta C_p (T_2 - T_1)"", ""\\Delta n_g = \\sum n_{g,\\text{products}} - \\sum n_{g,\\text{reactants}}""]","[""Stoichiometric Calculations"", ""State Functions and System Boundaries"", ""Definition of Standard States""]","[""Confusing standard states (e.g., taking $C_{\\text{diamond}}$ instead of $C_{\\text{graphite}}$ as standard state zero enthalpy)."", ""Applying Bond Enthalpy equations to non-gaseous compounds without accounting for enthalpies of vaporization or sublimation."", ""Calculating Bond Enthalpy changes as (Products - Reactants) instead of the correct (Reactants - Products).""]"
+Chemistry,UNIT 4: CHEMICAL THERMODYNAMICS,"Second and Third Laws of Thermodynamics: Entropy, Gibbs Free Energy, and Chemical Equilibrium",JEE Advanced,theory,"The Second Law dictates the direction of spontaneous change. It defines entropy ($S$), a state function measuring microscopic randomness or energy dispersal.
+
+### Entropy Changes
+For any reversible change, entropy change is:
+$$dS = \frac{dq_{\text{rev}}}{T} \implies \Delta S = \int \frac{dq_{\text{rev}}}{T}$$
+- **Ideal Gas System:**
+$$\Delta S_{\text{sys}} = n C_v \ln\left(\frac{T_2}{T_1}\right) + n R \ln\left(\frac{V_2}{V_1}\right) = n C_p \ln\left(\frac{T_2}{T_1}\right) - n R \ln\left(\frac{P_2}{P_1}\right)$$
+- **Surrounding Entropy:**
+$$\Delta S_{\text{surr}} = -\frac{q_{\text{actual}}}{T_{\text{surr}}}$$
+- **Clausius Inequality & Total Entropy:**
+$$\Delta S_{\text{total}} = \Delta S_{\text{sys}} + \Delta S_{\text{surr}} \ge 0$$
+For spontaneous processes $\Delta S_{\text{total}} > 0$; at equilibrium $\Delta S_{\text{total}} = 0$.
+
+### Gibbs Free Energy ($G$) and Spontaneity
+Gibbs Free Energy is defined as $G = H - TS$. At constant temperature and pressure:
+$$\Delta G_{\text{sys}} = \Delta H_{\text{sys}} - T \Delta S_{\text{sys}}$$
+Combining with $\Delta S_{\text{total}}$, we get $\Delta G_{\text{sys}} = -T \Delta S_{\text{total}}$ (at const. $T, P$).
+- $\Delta G_{\text{sys}} < 0$: Spontaneous process
+- $\Delta G_{\text{sys}} = 0$: System at dynamic equilibrium
+- $\Delta G_{\text{sys}} > 0$: Non-spontaneous (spontaneous in reverse direction)
+
+### Thermodynamic Equilibrium Constant
+For a general reaction $A + B \rightleftharpoons C + D$, the non-standard free energy change is:
+$$\Delta G = \Delta G^\circ + R T \ln Q$$
+At equilibrium, $\Delta G = 0$ and $Q = K_{\text{eq}}$, yielding:
+$$\Delta G^\circ = -R T \ln K_{\text{eq}}$$
+
+### Temperature Dependence of $K_{\text{eq}}$ (van 't Hoff Equation)
+Integrating the fundamental differential relation $\frac{d \ln K}{dT} = \frac{\Delta H^\circ}{R T^2}$ gives:
+$$\ln\left(\frac{K_2}{K_1}\right) = -\frac{\Delta H^\circ}{R} \left( \frac{1}{T_2} - \frac{1}{T_1} \right)$$
+
+### Third Law of Thermodynamics
+The entropy of a perfectly crystalline substance approaches absolute zero ($0\text{ K}$) as temperature approaches absolute zero. It allows the determination of absolute entropy ($S^\circ$) of substances:
+$$S^\circ(T) = \int_0^T \frac{C_p}{T} dT$$","[""\\Delta S_{\\text{sys}} = n C_v \\ln\\left(\\frac{T_2}{T_1}\\right) + n R \\ln\\left(\\frac{V_2}{V_1}\\right)"", ""\\Delta G = \\Delta H - T \\Delta S"", ""\\Delta S_{\\text{total}} = \\Delta S_{\\text{sys}} + \\Delta S_{\\text{surr}} \\ge 0"", ""\\Delta G^\\circ = -R T \\ln K_{\\text{eq}}"", ""\\ln\\left(\\frac{K_2}{K_1}\\right) = -\\frac{\\Delta H^\\circ}{R} \\left( \\frac{1}{T_2} - \\frac{1}{T_1} \\right)""]","[""Reversible vs Irreversible Processes"", ""Equilibrium Constant ($K_{eq}$) and Reaction Quotient ($Q$)"", ""Differential and Integral Calculus""]","[""Confusing $\\Delta G$ with $\\Delta G^\\circ$. $\\Delta G = 0$ at equilibrium, whereas $\\Delta G^\\circ$ is zero ONLY when $K_{\\text{eq}} = 1$."", ""Evaluating spontaneity using ONLY $\\Delta S_{\\text{sys}}$ instead of total entropy $\\Delta S_{\\text{total}}$ when the system is not isolated."", ""Calculating $\\Delta S_{\\text{surr}}$ using $q_{\\text{rev, sys}}$ instead of the actual heat exchanged irreversibly: $\\Delta S_{\\text{surr}} = -q_{\\text{actual}}/T$.""]"
