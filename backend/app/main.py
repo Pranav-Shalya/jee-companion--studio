@@ -74,11 +74,12 @@ async def startup_event():
 ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    "https://jee-companion-studio.vercel.app/",
+    "https://jee-companion-studio.vercel.app",
     "http://localhost:3000",
     "http://127.0.0.1:3000",
     "http://localhost:8000",
     "http://127.0.0.1:8000",
+    "https://jee-companion-studio-yh78.vercel.app",
 
 ]
 
