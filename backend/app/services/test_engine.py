@@ -7,7 +7,7 @@ from typing import List, Dict, Any, Optional
 
 from qdrant_client import QdrantClient
 from qdrant_client import models
-from sentence_transformers import SentenceTransformer
+from langchain_community.embeddings.fastembed import FastEmbedEmbeddings
 from langchain_groq import ChatGroq
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import SystemMessage, HumanMessage
@@ -21,17 +21,17 @@ logger = logging.getLogger(__name__)
 QDRANT_DB_PATH = Path(__file__).resolve().parent.parent.parent / "qdrant_db"
 
 # Lazy-loaded singleton embedding model on CPU
-_embedding_model: Optional[SentenceTransformer] = None
+_embedding_model: Optional[FastEmbedEmbeddings] = None
 
 
-def get_embedding_model() -> SentenceTransformer:
+def get_embedding_model() -> FastEmbedEmbeddings:
     """
-    Initializes and caches SentenceTransformer('all-MiniLM-L6-v2') on local CPU.
+    Initializes and caches FastEmbedEmbeddings('BAAI/bge-small-en-v1.5') on local CPU.
     """
     global _embedding_model
     if _embedding_model is None:
-        logger.info("Initializing SentenceTransformer('all-MiniLM-L6-v2') on CPU...")
-        _embedding_model = SentenceTransformer("all-MiniLM-L6-v2", device="cpu")
+        logger.info("Initializing FastEmbedEmbeddings('BAAI/bge-small-en-v1.5')...")
+        _embedding_model = FastEmbedEmbeddings(model_name="BAAI/bge-small-en-v1.5")
     return _embedding_model
 
 
@@ -182,7 +182,7 @@ async def generate_test_paper(
 
     # 1. Build search query text and generate dense embedding vector
     query_text = f"{subject} {topic or ''}".strip()
-    query_vector = embedding_model.encode(query_text).tolist()
+    query_vector = embedding_model.embed_query(query_text)
 
     # 2. Subject Pre-Filter
     subject_clean = subject.strip()
