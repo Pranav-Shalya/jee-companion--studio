@@ -1,5 +1,5 @@
 import os
-from typing import List, Union
+from typing import List, Union, Optional
 from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -30,11 +30,12 @@ class Settings(BaseSettings):
     REDIS_URL: str = "redis://localhost:6379/0"
     REDIS_SESSION_TTL_SECONDS: int = 86400  # 24 hours
 
-    # Qdrant Vector Store
+    # Qdrant Vector Store (Cloud & Local)
+    QDRANT_URL: Optional[str] = None
     QDRANT_HOST: str = "localhost"
     QDRANT_PORT: int = 6333
-    QDRANT_API_KEY: str = ""
-    QDRANT_COLLECTION_NAME: str = "jee_syllabus_knowledge"
+    QDRANT_API_KEY: Optional[str] = None
+    QDRANT_COLLECTION_NAME: str = "jee_knowledge_base"
 
     # Groq & Gemini API Configurations
     GROQ_API_KEY: str = os.getenv("GROQ_API_KEY", "")
