@@ -127,10 +127,8 @@ export default function TestSeriesInterface({ onResolveWithMentor }) {
     setErrorMsg(null);
     setTimeSpentSeconds(0);
 
-    const apiUrl =
-      window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-        ? 'http://localhost:8000/api/v1/tests/generate'
-        : '/api/v1/tests/generate';
+    const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000').replace(/\/+$/, '');
+    const apiUrl = `${apiBaseUrl}/api/v1/tests/generate`;
 
     try {
       const res = await fetch(apiUrl, {
@@ -201,7 +199,8 @@ export default function TestSeriesInterface({ onResolveWithMentor }) {
         console.warn('Could not retrieve Clerk auth token:', tokenErr);
       }
 
-      const logUrl = 'http://localhost:8000/api/v1/analytics/log';
+      const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000').replace(/\/+$/, '');
+      const logUrl = `${apiBaseUrl}/api/v1/analytics/log`;
       const difficultyVal = testConfig.examType === 'JEE Advanced' ? 1.2 : 1.0;
 
       const headers = {

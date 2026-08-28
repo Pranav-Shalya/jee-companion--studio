@@ -9,17 +9,9 @@ const SPECULATIVE_STATUSES = [
 ];
 
 function getWebSocketUrl(sessionId) {
-  const isLocalhost =
-    typeof window !== 'undefined' &&
-    (window.location.hostname === 'localhost' ||
-      window.location.hostname === '127.0.0.1');
-
-  if (isLocalhost) {
-    return `ws://127.0.0.1:8000/ws/mentor/${sessionId}`;
-  }
-
-  const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-  return `${protocol}//${window.location.host}/ws/mentor/${sessionId}`;
+  const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000').replace(/\/+$/, '');
+  const wsBase = apiBaseUrl.replace(/^http/, 'ws');
+  return `${wsBase}/ws/mentor/${sessionId}`;
 }
 
 export function useMentorSocket() {

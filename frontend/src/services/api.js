@@ -2,7 +2,8 @@
  * API & WebSocket Client for JEE Doubt Resolution & Companion Studio
  */
 
-const API_BASE = '/api/v1';
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000').replace(/\/+$/, '');
+const API_BASE = `${API_BASE_URL}/api/v1`;
 
 export const api = {
   // --- Doubt Intake & Sessions ---
@@ -105,8 +106,9 @@ export const api = {
  * WebSocket helper for real-time Socratic coaching
  */
 export function createDoubtWebSocket(sessionId, handlers = {}) {
-  const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-  const wsUrl = `${protocol}//${window.location.host}/ws/session/${sessionId}`;
+  const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000').replace(/\/+$/, '');
+  const wsBase = apiBaseUrl.replace(/^http/, 'ws');
+  const wsUrl = `${wsBase}/ws/session/${sessionId}`;
   const ws = new WebSocket(wsUrl);
 
   ws.onopen = () => {
