@@ -70,27 +70,27 @@ async def startup_event():
     init_analytics_db()
     logger.info("SQLite schema & Analytics DB initialized via startup event.")
 
-# CORS middleware configuration with wide development origin support
+# CORS middleware configuration with full Vercel, Render, and development origin support
 ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    "https://jee-companion-studio.vercel.app",
     "http://localhost:3000",
     "http://127.0.0.1:3000",
     "http://localhost:8000",
     "http://127.0.0.1:8000",
+    "https://jee-companion-studio.vercel.app",
     "https://jee-companion-studio-yh78.vercel.app",
-
 ]
 
 app.add_middleware(SecurityHeadersMiddleware)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=ALLOWED_ORIGINS,
-    allow_origin_regex=r"http://(localhost|127\.0\.0\.1)(:\d+)?",
+    allow_origin_regex=r"https://.*\.vercel\.app|https://.*\.onrender\.com|http://(localhost|127\.0\.0\.1)(:\d+)?",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["*"],
 )
 
 # Mount API V1 router, Analytics router, and Chat/WebSocket router
