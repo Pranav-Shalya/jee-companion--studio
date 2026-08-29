@@ -159,9 +159,9 @@ class MultiLLMConsensusService:
     """
 
     def __init__(self):
-        self.groq_router_model = os.getenv("GROQ_ROUTER_MODEL", "openai/gpt-oss-120b")
-        self.groq_critic_model = os.getenv("GROQ_CRITIC_MODEL", "openai/gpt-oss-120b")
-        self.math_model_name = os.getenv("GEMINI_MATH_MODEL") or os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+        self.groq_router_model = getattr(settings, "GROQ_ROUTER_MODEL", os.getenv("GROQ_ROUTER_MODEL", "llama-3.3-70b-versatile"))
+        self.groq_critic_model = getattr(settings, "GROQ_CRITIC_MODEL", os.getenv("GROQ_CRITIC_MODEL", "llama-3.3-70b-versatile"))
+        self.math_model_name = getattr(settings, "GEMINI_MATH_MODEL", getattr(settings, "GEMINI_MODEL", os.getenv("GEMINI_MATH_MODEL", "gemini-3.6-flash")))
 
     # ---------------------------------------------------------
     # 0. Qdrant RAG Context Retrieval (Singleton & Resilient)
