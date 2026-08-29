@@ -39,14 +39,14 @@ class Settings(BaseSettings):
 
     # Groq & Gemini API Configurations
     GROQ_API_KEY: str = os.getenv("GROQ_API_KEY", "")
-    GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", os.getenv("GOOGLE_API_KEY", ""))
+    GEMINI_API_KEY: Optional[str] = os.getenv("GEMINI_API_KEY", os.getenv("GOOGLE_API_KEY", None))
     
     # Active Model Configurations
     GROQ_MODEL: str = "llama-3.3-70b-versatile"
     GROQ_ROUTER_MODEL: str = "llama-3.3-70b-versatile"
     GROQ_CRITIC_MODEL: str = "llama-3.3-70b-versatile"
-    GEMINI_MODEL: str = "gemini-2.5-flash"
-    GEMINI_MATH_MODEL: str = "gemini-3.6-flash"
+    GEMINI_MODEL: str = "gemini-1.5-flash"
+    GEMINI_MATH_MODEL: str = "gemini-1.5-flash"
 
     # JEE Guardrail Settings
     STRICT_SYLLABUS_ENFORCEMENT: bool = True

@@ -158,7 +158,7 @@ async def generate_theory(subject: str, chapter: str):
     api_key = rotator.get_next_key()
     genai.configure(api_key=api_key)
 
-    candidate_models = ['gemini-3.7-flash', 'gemini-3.6-flash', 'gemini-3.5-flash']
+    candidate_models = ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-2.0-flash']
     raw_text = ""
 
     for model_name in candidate_models:
@@ -213,7 +213,7 @@ async def generate_pyqs(subject: str, chapter: str, count: int = 5):
     api_key = rotator.get_next_key()
     genai.configure(api_key=api_key)
 
-    candidate_models = ['gemini-3.7-flash', 'gemini-3.6-flash', 'gemini-3.5-flash']
+    candidate_models = ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-2.0-flash']
     raw_text = ""
 
     for model_name in candidate_models:
