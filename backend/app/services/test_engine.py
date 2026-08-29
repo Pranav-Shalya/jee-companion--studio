@@ -1,3 +1,4 @@
+import os
 import json
 import logging
 import re
@@ -79,10 +80,11 @@ async def generate_llm_questions(
     raw_response = ""
 
     # 1. Attempt generation with Groq
-    groq_api_key = settings.GROQ_API_KEY
+    groq_api_key = getattr(settings, "GROQ_API_KEY", os.getenv("GROQ_API_KEY", ""))
     if groq_api_key:
         groq_candidates = [
-            settings.GROQ_MODEL,
+            getattr(settings, "GROQ_MODEL", "llama-3.3-70b-versatile"),
+            getattr(settings, "GROQ_ROUTER_MODEL", "llama-3.3-70b-versatile"),
             "llama-3.3-70b-versatile",
             "openai/gpt-oss-120b",
             "llama-3.1-8b-instant",
@@ -107,8 +109,9 @@ async def generate_llm_questions(
         gemini_key = key_manager.get_active_key()
         if gemini_key:
             try:
+                gemini_model_name = getattr(settings, "GEMINI_MODEL", getattr(settings, "GEMINI_MATH_MODEL", "gemini-2.5-flash"))
                 gemini_llm = ChatGoogleGenerativeAI(
-                    model=settings.GEMINI_MODEL,
+                    model=gemini_model_name,
                     google_api_key=gemini_key,
                     temperature=0.3,
                     max_output_tokens=4096,
