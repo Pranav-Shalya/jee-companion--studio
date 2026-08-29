@@ -205,7 +205,7 @@ $$\\lim_{n \\to \\infty} \\frac{1}{n} \\sum_{r=1}^{k n} f\\left(\\frac{r}{n}\\ri
 async def generate_studio_artifact(request: StudioGenerateRequest):
     """
     Synthesizes custom JEE study artifacts (formula_sheet, cheat_sheet, flashcards)
-    grounded in Qdrant syllabus vector retrieval and generated with gemini-3.6-flash
+    grounded in Qdrant syllabus vector retrieval and generated with gemini-1.5-flash
     using key pool rotation and 429 auto-failover.
     """
     print(f"\n[STUDIO-GENERATE] Ingesting request for topic '{request.topic}' (Type: {request.artifact_type}, Level: {request.proficiency})...")
@@ -276,6 +276,20 @@ async def generate_studio_artifact(request: StudioGenerateRequest):
         )
     ])
 
+    # 1. Resolve Gemini model name and verify API key availability
+    gemini_model = getattr(settings, "GEMINI_MODEL", os.getenv("GEMINI_MODEL", "gemini-1.5-flash"))
+    active_key = (
+        key_manager.get_active_key()
+        or getattr(settings, "GEMINI_API_KEY", None)
+        or os.getenv("GEMINI_API_KEY")
+        or os.getenv("GOOGLE_API_KEY")
+    )
+    if not active_key:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Gemini API Key is not configured. Please set GEMINI_API_KEY or GOOGLE_API_KEY in your environment.",
+        )
+
     async def _invoke(llm: ChatGoogleGenerativeAI) -> str:
         chain = prompt | llm | StrOutputParser()
         return await chain.ainvoke({
@@ -289,7 +303,7 @@ async def generate_studio_artifact(request: StudioGenerateRequest):
     try:
         artifact_md = await key_manager.execute_with_failover(
             _invoke,
-            model="gemini-3.6-flash",
+            model=gemini_model,
             temperature=0.2
         )
 
@@ -308,9 +322,14 @@ async def generate_studio_artifact(request: StudioGenerateRequest):
     except Exception as exc:
         print(f"[STUDIO-GENERATE] Generation failed: {exc.__class__.__name__}: {str(exc)}")
         print(traceback.format_exc())
+        error_msg = str(exc)
+        if "API_KEY_INVALID" in error_msg or "PERMISSION_DENIED" in error_msg or "UNAUTHENTICATED" in error_msg:
+            error_msg = "Gemini API key is invalid or unauthorized. Please verify your GEMINI_API_KEY configuration."
+        elif "ResourceExhausted" in error_msg or "429" in error_msg:
+            error_msg = "Gemini API rate limit reached across all keys in pool. Please wait 30 seconds and retry."
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Studio artifact generation failed: {str(exc)}"
+            detail=f"Studio artifact generation failed: {error_msg}"
         )
 
 

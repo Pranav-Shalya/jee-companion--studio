@@ -114,13 +114,16 @@ class KeyManager:
             "All Gemini API keys in the pool are currently rate-limited (HTTP 429). Please wait 60 seconds before retrying."
         )
 
-    # Alias for backward compatibility
+    # Aliases for backward compatibility
     def get_next_api_key(self) -> str:
+        return self.get_next_key()
+
+    def get_active_key(self) -> str:
         return self.get_next_key()
 
     def get_gemini_llm(
         self,
-        model: str = "gemini-3.6-flash",
+        model: str = "gemini-1.5-flash",
         temperature: float = 0.2,
         api_key: Optional[str] = None,
         max_retries: int = 1,
@@ -156,7 +159,7 @@ class KeyManager:
     async def execute_with_failover(
         self,
         invoke_fn: Callable[[ChatGoogleGenerativeAI], Awaitable[Any]],
-        model: str = "gemini-3.6-flash",
+        model: str = "gemini-1.5-flash",
         temperature: float = 0.2,
         max_attempts: Optional[int] = None,
     ) -> Any:

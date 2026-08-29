@@ -161,7 +161,7 @@ class MultiLLMConsensusService:
     def __init__(self):
         self.groq_router_model = getattr(settings, "GROQ_ROUTER_MODEL", os.getenv("GROQ_ROUTER_MODEL", "llama-3.3-70b-versatile"))
         self.groq_critic_model = getattr(settings, "GROQ_CRITIC_MODEL", os.getenv("GROQ_CRITIC_MODEL", "llama-3.3-70b-versatile"))
-        self.math_model_name = getattr(settings, "GEMINI_MATH_MODEL", getattr(settings, "GEMINI_MODEL", os.getenv("GEMINI_MATH_MODEL", "gemini-3.6-flash")))
+        self.math_model_name = getattr(settings, "GEMINI_MATH_MODEL", getattr(settings, "GEMINI_MODEL", os.getenv("GEMINI_MATH_MODEL", "gemini-1.5-flash")))
 
     # ---------------------------------------------------------
     # 0. Qdrant RAG Context Retrieval (Singleton & Resilient)
@@ -279,9 +279,7 @@ class MultiLLMConsensusService:
         for attempt in range(max_retries):
             try:
                 current_key = key_manager.get_next_key()
-                gemini_model_name = os.getenv("GEMINI_MATH_MODEL", "gemini-3.6-flash")
-                if "2.5" in gemini_model_name:
-                    gemini_model_name = "gemini-3.6-flash"
+                gemini_model_name = getattr(settings, "GEMINI_MODEL", getattr(settings, "GEMINI_MATH_MODEL", os.getenv("GEMINI_MODEL", "gemini-1.5-flash")))
                 llm = ChatGoogleGenerativeAI(
                     model=gemini_model_name,
                     google_api_key=current_key,
@@ -724,9 +722,7 @@ class MultiLLMConsensusService:
         for attempt in range(max_retries):
             try:
                 current_key = key_manager.get_next_key()
-                gemini_model_name = os.getenv("GEMINI_MATH_MODEL", "gemini-3.6-flash")
-                if "2.5" in gemini_model_name:
-                    gemini_model_name = "gemini-3.6-flash"
+                gemini_model_name = getattr(settings, "GEMINI_MODEL", getattr(settings, "GEMINI_MATH_MODEL", os.getenv("GEMINI_MODEL", "gemini-1.5-flash")))
                 llm = ChatGoogleGenerativeAI(
                     model=gemini_model_name,
                     google_api_key=current_key,
